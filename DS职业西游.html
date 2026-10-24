@@ -1,0 +1,2777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>职场西游世界，测测你是谁？</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;}
+[hidden]{display:none !important;}
+html{-webkit-text-size-adjust:100%;}
+:root{
+  --bg:#f6f1e7;
+  --bg2:#efe7d8;
+  --card:#ffffff;
+  --ink:#2f2a26;
+  --ink2:#6b6259;
+  --ink3:#9a9188;
+  --red:#c43b2f;
+  --red2:#e05a45;
+  --gold:#d9a441;
+  --gold2:#f0c469;
+  --line:rgba(47,42,38,.10);
+  --shadow:0 8px 24px -12px rgba(47,42,38,.28);
+  --shadow-lg:0 18px 44px -22px rgba(47,42,38,.38);
+}
+body{
+  margin:0;min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",Roboto,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(680px 420px at 50% -10%, rgba(217,164,65,.16), rgba(246,241,231,0) 70%),
+    linear-gradient(180deg,#f9f4ea 0%, #f6f1e7 48%, #f1e9db 100%);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.app{max-width:720px;margin:0 auto;padding:18px 16px 84px;}
+@media(min-width:768px){.app{padding:28px 24px 96px;}}
+
+.screen{display:none;}
+.screen.active{display:block;animation:screenIn .38s cubic-bezier(.2,.8,.2,1);}
+@keyframes screenIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+/* ---------------- 通用按钮 ---------------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:inherit;font-size:16px;font-weight:600;
+  border:none;border-radius:14px;padding:14px 22px;cursor:pointer;
+  transition:transform .16s ease,box-shadow .2s ease,background .2s ease,opacity .2s;
+  -webkit-tap-highlight-color:transparent;
+  text-decoration:none;
+}
+.btn:active{transform:scale(.975);}
+.btn:disabled{opacity:.38;cursor:not-allowed;transform:none;}
+.btn-primary{
+  background:linear-gradient(135deg,#e0574a 0%,var(--red) 55%,#a72e24 100%);
+  color:#fff;
+  box-shadow:0 12px 26px -14px rgba(196,59,47,.85),inset 0 1px 0 rgba(255,255,255,.24);
+}
+.btn-gold{
+  background:linear-gradient(135deg,#f4cf80 0%,#d9a441 60%,#bd8a2a 100%);
+  color:#3a2a09;
+  box-shadow:0 12px 26px -14px rgba(217,164,65,.9),inset 0 1px 0 rgba(255,255,255,.42);
+}
+.btn-ghost{
+  background:#fff;color:var(--ink2);border:1.5px solid var(--line);
+  box-shadow:0 4px 12px -8px rgba(47,42,38,.3);
+}
+.btn-ghost:hover{background:#fdfaf4;}
+
+/* ---------------- 开场页 ---------------- */
+#scr-home{position:relative;overflow:hidden;}
+.home-clouds{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.cloud{
+  position:absolute;width:190px;height:66px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(255,255,255,.92),rgba(255,255,255,0));
+  filter:blur(2px);
+}
+.cloud-l{top:14%;left:-90px;animation:cloudInL 1.5s cubic-bezier(.2,.8,.2,1) .1s both, floatY 7s ease-in-out 1.6s infinite;}
+.cloud-r{top:26%;right:-90px;animation:cloudInR 1.5s cubic-bezier(.2,.8,.2,1) .18s both, floatY 8s ease-in-out 1.8s infinite;}
+.cloud-l2{top:62%;left:-120px;width:150px;height:52px;animation:cloudInL 1.8s cubic-bezier(.2,.8,.2,1) .3s both;}
+.cloud-r2{top:72%;right:-120px;width:150px;height:52px;animation:cloudInR 1.8s cubic-bezier(.2,.8,.2,1) .36s both;}
+@keyframes cloudInL{from{transform:translateX(-160px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+@keyframes cloudInR{from{transform:translateX(160px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+@keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
+.home-inner{
+  position:relative;z-index:2;
+  min-height:calc(100vh - 110px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:16px 0 26px;
+}
+.scroll-badge{
+  display:inline-block;
+  font-size:11px;letter-spacing:.26em;color:var(--red);
+  background:linear-gradient(180deg,#fffdf8,#fdf4e4);
+  border:1px solid rgba(217,164,65,.5);
+  padding:7px 18px;border-radius:999px;margin-bottom:24px;
+  box-shadow:0 6px 18px -12px rgba(217,164,65,.9);
+  transform-origin:center;
+  animation:scrollOpen .7s cubic-bezier(.2,.9,.2,1) both;
+}
+@keyframes scrollOpen{from{transform:scaleX(.08);opacity:0;}to{transform:scaleX(1);opacity:1;}}
+
+.hero-title{
+  margin:0 0 16px;font-size:clamp(26px,7.6vw,40px);line-height:1.3;
+  letter-spacing:.03em;font-weight:800;
+  background:linear-gradient(160deg,#3a322b 0%,#a02c22 55%,#c43b2f 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:#a02c22;
+}
+.hero-title span{display:inline-block;opacity:0;transform:translateY(14px);animation:charIn .52s cubic-bezier(.2,.8,.2,1) forwards;}
+@keyframes charIn{to{opacity:1;transform:none;}}
+.hero-sub{margin:0 0 10px;font-size:clamp(14px,4vw,17px);color:var(--ink2);letter-spacing:.03em;}
+.hero-meta{margin:0 0 34px;font-size:12.5px;color:var(--ink3);letter-spacing:.08em;}
+.home-inner .btn{width:100%;max-width:330px;margin-bottom:12px;}
+.resume-hint{margin:6px 0 0;font-size:12.5px;color:var(--gold);letter-spacing:.04em;}
+
+/* ---------------- 测评页 ---------------- */
+.quiz-head{position:sticky;top:0;z-index:30;padding:12px 0 14px;background:linear-gradient(180deg,var(--bg) 0%,var(--bg) 72%,rgba(246,241,231,0) 100%);}
+.quiz-meta{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--ink2);margin-bottom:9px;letter-spacing:.04em;}
+.quiz-meta b{color:var(--red);font-weight:800;font-size:15px;}
+.pbar{height:7px;border-radius:999px;background:rgba(47,42,38,.09);overflow:hidden;}
+.pbar>i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--gold2),var(--red2));transition:width .4s cubic-bezier(.4,0,.2,1);}
+
+#quiz-body{will-change:transform,opacity;}
+.slide-right{animation:slideInRight .32s cubic-bezier(.2,.8,.2,1);}
+.slide-left{animation:slideInLeft .32s cubic-bezier(.2,.8,.2,1);}
+@keyframes slideInRight{from{opacity:0;transform:translateX(44px);}to{opacity:1;transform:none;}}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-44px);}to{opacity:1;transform:none;}}
+
+.qcard{
+  margin:8px 0 16px;padding:20px 18px;border-radius:16px;
+  background:var(--card);border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  font-size:17px;line-height:1.62;font-weight:700;color:var(--ink);
+}
+.qcard .q-index{display:block;font-size:11px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin-bottom:9px;}
+
+.opt{
+  display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;
+  font-family:inherit;font-size:15px;line-height:1.55;color:var(--ink);
+  background:var(--card);border:1.5px solid var(--line);
+  border-radius:16px;padding:14px 15px;margin-bottom:11px;cursor:pointer;
+  box-shadow:0 5px 16px -12px rgba(47,42,38,.35);
+  transition:background .18s,border-color .18s,box-shadow .18s,transform .28s cubic-bezier(.2,.8,.2,1);
+  -webkit-tap-highlight-color:transparent;
+}
+.opt:hover{border-color:rgba(217,164,65,.55);background:#fffdf8;}
+.opt.selected{
+  background:linear-gradient(135deg,#fff8ec,#fff2df);
+  border-color:var(--gold);
+  box-shadow:0 0 0 2px rgba(217,164,65,.22),0 12px 28px -18px rgba(217,164,65,.9);
+  transform:scale(1.015);
+}
+.opt-key{
+  flex:0 0 27px;height:27px;display:flex;align-items:center;justify-content:center;
+  border-radius:9px;font-size:12px;font-weight:800;
+  background:rgba(47,42,38,.07);color:var(--ink2);
+  transition:background .18s,color .18s;
+}
+.opt.selected .opt-key{background:var(--red);color:#fff;}
+.opt-text{flex:1;padding-top:2px;}
+
+.nav{display:flex;gap:10px;margin-top:18px;}
+.nav .btn{flex:1;padding:13px 12px;font-size:15px;}
+.tip{text-align:center;font-size:12.5px;color:var(--ink3);margin:14px 0 0;min-height:18px;letter-spacing:.03em;}
+
+/* ---------------- 结果页 ---------------- */
+.res-hero{
+  position:relative;overflow:hidden;text-align:center;
+  padding:26px 18px 24px;border-radius:20px;
+  background:
+    radial-gradient(120% 78% at 50% 0%, rgba(217,164,65,.20), rgba(217,164,65,0) 64%),
+    linear-gradient(180deg,#ffffff,#fdf7ec);
+  border:1px solid rgba(217,164,65,.36);
+  box-shadow:var(--shadow-lg);
+}
+.hero-figure{position:relative;width:170px;height:170px;margin:0 auto 6px;}
+.hero-figure .fig-main{width:170px;height:170px;}
+.hero-figure.is-comp .fig-main{transform:translateX(-26px) scale(.92);}
+.fig-sub{
+  position:absolute;right:-14px;bottom:2px;width:82px;height:82px;
+  border-radius:50%;background:#fff;border:2px solid var(--gold2);
+  box-shadow:0 8px 20px -10px rgba(217,164,65,.9);overflow:hidden;
+}
+.fig-sub .char-svg{width:100%;height:100%;}
+.hero-name{font-size:30px;font-weight:800;letter-spacing:.06em;margin-top:6px;}
+.hero-tagline{font-size:14px;color:var(--red);margin-top:7px;letter-spacing:.05em;font-weight:600;}
+.hero-arch{font-size:12.5px;color:var(--ink3);margin-top:5px;letter-spacing:.05em;}
+.hero-pct{
+  display:inline-block;margin-top:13px;font-size:13px;font-weight:700;color:#8a6417;
+  background:rgba(217,164,65,.16);border:1px solid rgba(217,164,65,.42);
+  padding:5px 15px;border-radius:999px;letter-spacing:.05em;
+}
+.composite-line{
+  margin-top:12px;font-size:13.5px;color:var(--ink2);line-height:1.6;
+  background:rgba(196,59,47,.06);border:1px dashed rgba(196,59,47,.28);
+  border-radius:12px;padding:9px 14px;display:inline-block;
+}
+
+.panel{
+  margin-top:16px;padding:18px 16px;border-radius:16px;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);
+}
+.panel h3{
+  margin:0 0 14px;font-size:14.5px;font-weight:800;letter-spacing:.06em;
+  display:flex;align-items:center;gap:9px;color:var(--ink);
+}
+.panel h3::before{content:'';width:4px;height:15px;border-radius:3px;background:linear-gradient(180deg,var(--red2),var(--gold));}
+
+.list-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:11px;font-size:14.5px;line-height:1.65;color:var(--ink2);}
+.list-item:last-child{margin-bottom:0;}
+.list-item .dot{
+  flex:0 0 20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#fff;background:linear-gradient(145deg,var(--red2),var(--red));margin-top:1px;
+}
+.list-item.warn .dot{background:linear-gradient(145deg,#e8a23c,#c07a1c);}
+
+.badge89{
+  margin-top:16px;padding:15px 16px;border-radius:14px;
+  background:linear-gradient(135deg,#fff6e8,#fdf0dc);
+  border:1px dashed rgba(217,164,65,.65);
+  font-size:14.5px;line-height:1.7;color:#7a5a18;font-weight:600;
+}
+.badge89 b{display:block;font-size:11px;letter-spacing:.2em;color:var(--gold);margin-bottom:7px;font-weight:800;}
+
+.partner-item{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);}
+.partner-item:last-child{border-bottom:none;padding-bottom:0;}
+.partner-avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;overflow:hidden;background:#fdf4e4;border:1.5px solid rgba(217,164,65,.4);}
+.partner-avatar .char-svg{width:100%;height:100%;}
+.partner-name{font-size:14.5px;font-weight:700;color:var(--ink);}
+.partner-reason{font-size:12.5px;color:var(--ink3);margin-top:3px;line-height:1.5;}
+
+.info-row{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);}
+.info-row:last-child{border-bottom:none;padding-bottom:0;}
+.info-row .k{flex:0 0 84px;font-size:12.5px;color:var(--ink3);letter-spacing:.05em;padding-top:2px;}
+.info-row .v{flex:1;font-size:14px;line-height:1.62;color:var(--ink2);}
+
+.cand-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+.cand-card{
+  padding:11px 6px;border-radius:13px;text-align:center;
+  background:linear-gradient(180deg,#fffdf8,#fdf7ec);
+  border:1px solid var(--line);
+}
+.cand-card.first{border-color:rgba(196,59,47,.4);background:linear-gradient(180deg,#fff8f4,#fdeee8);}
+.cand-rank{font-size:10px;letter-spacing:.12em;color:var(--ink3);margin-bottom:6px;}
+.cand-avatar{width:52px;height:52px;margin:0 auto 6px;border-radius:50%;overflow:hidden;background:#fdf4e4;}
+.cand-avatar .char-svg{width:100%;height:100%;}
+.cand-name{font-size:13.5px;font-weight:800;color:var(--ink);}
+.cand-slot{font-size:11px;color:var(--ink3);margin-top:3px;}
+.cand-pct{font-size:12.5px;font-weight:800;color:var(--red);margin-top:5px;}
+
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;}
+.actions .btn{width:100%;font-size:14.5px;padding:13px 10px;}
+.actions .btn.full{grid-column:1 / -1;}
+
+.debug-box{margin-top:16px;padding:16px;border-radius:14px;background:#26221e;color:#cfc8bd;font-size:12px;line-height:1.8;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow-x:auto;}
+.debug-box h4{margin:0 0 10px;color:#f0c469;font-size:12px;letter-spacing:.1em;}
+.debug-box .dbg-row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08);padding:3px 0;}
+.debug-box .dbg-sub{margin-top:10px;color:#8fbf8f;}
+
+/* ---------------- 角色 SVG / fallback ---------------- */
+.char-svg{width:100%;height:100%;display:block;overflow:visible;}
+.char-fallback{
+  width:100%;height:100%;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 34% 26%, var(--c1,#ffe9c4), var(--c2,#e9b45c));
+  box-shadow:inset 0 -6px 16px rgba(0,0,0,.09), 0 8px 22px -14px rgba(47,42,38,.5);
+  animation:fbBreathe 3.4s ease-in-out infinite;
+}
+.fb-emoji{font-size:44%;line-height:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,.16));}
+@keyframes fbBreathe{0%,100%{transform:scale(1);}50%{transform:scale(1.045);}}
+.mini-fb{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:22px;background:radial-gradient(circle at 34% 26%,#ffe9c4,#e9b45c);
+}
+
+/* ---------------- 图鉴 ---------------- */
+.gal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
+.gal-head h2{margin:0;font-size:19px;letter-spacing:.05em;font-weight:800;}
+.gal-back{
+  background:#fff;border:1.5px solid var(--line);color:var(--ink2);
+  font-family:inherit;font-size:13px;padding:8px 15px;border-radius:11px;cursor:pointer;
+  box-shadow:0 4px 12px -10px rgba(47,42,38,.5);
+}
+.filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.filters::-webkit-scrollbar{display:none;}
+.filter-btn{
+  flex:0 0 auto;font-family:inherit;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;
+  background:#fff;border:1.5px solid var(--line);color:var(--ink2);
+  transition:background .18s,color .18s,border-color .18s;
+  -webkit-tap-highlight-color:transparent;
+}
+.filter-btn.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:700;box-shadow:0 8px 18px -12px rgba(196,59,47,.9);}
+
+.gal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;}
+@media(min-width:560px){.gal-grid{grid-template-columns:repeat(3,1fr);}}
+.gal-card{
+  padding:14px 10px 13px;border-radius:16px;text-align:center;cursor:pointer;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);
+  transition:transform .18s,box-shadow .2s,border-color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.gal-card:hover{transform:translateY(-2px);border-color:rgba(217,164,65,.5);box-shadow:var(--shadow-lg);}
+.gal-avatar{width:76px;height:76px;margin:0 auto 9px;border-radius:50%;overflow:hidden;background:#fdf4e4;}
+.gal-name{font-size:15px;font-weight:800;letter-spacing:.04em;}
+.gal-tag{font-size:11.5px;color:var(--ink3);margin-top:4px;line-height:1.45;min-height:32px;}
+.gal-slot{display:inline-block;margin-top:7px;font-size:10.5px;color:var(--red);background:rgba(196,59,47,.08);border:1px solid rgba(196,59,47,.2);padding:2px 9px;border-radius:999px;}
+
+.gal-detail{margin-top:12px;padding:16px 15px;border-radius:14px;background:#fffdf8;border:1px solid rgba(217,164,65,.4);text-align:left;}
+.gal-detail h4{margin:0 0 8px;font-size:14px;color:var(--red);letter-spacing:.05em;}
+.gal-detail p{margin:0 0 9px;font-size:13.5px;line-height:1.7;color:var(--ink2);}
+.gal-detail p:last-child{margin-bottom:0;}
+.gal-detail .lbl{color:var(--ink3);font-size:12px;margin-right:5px;}
+
+/* ---------------- toast / 音效 ---------------- */
+.toast{
+  position:fixed;left:50%;bottom:40px;z-index:999;transform:translate(-50%,18px);
+  max-width:86vw;text-align:center;
+  background:rgba(47,42,38,.96);color:#fdf4e4;
+  font-size:13.5px;line-height:1.5;padding:11px 22px;border-radius:999px;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease,transform .25s ease;
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.6);
+}
+.toast.show{opacity:1;transform:translate(-50%,0);}
+
+.sound-toggle{
+  position:fixed;right:16px;bottom:18px;z-index:200;
+  width:46px;height:46px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:19px;line-height:1;
+  background:#fff;border:1.5px solid var(--line);color:var(--ink2);
+  box-shadow:0 10px 26px -14px rgba(47,42,38,.6);cursor:pointer;
+  transition:transform .16s,background .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.sound-toggle:active{transform:scale(.94);}
+.sound-toggle.on{background:linear-gradient(145deg,#fff3d8,#f6dfae);border-color:rgba(217,164,65,.7);}
+
+/* ---------------- 动效降级 ---------------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .hero-title span{opacity:1 !important;transform:none !important;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ 开场页 ============ -->
+  <section id="scr-home" class="screen active">
+    <div class="home-clouds" aria-hidden="true">
+      <div class="cloud cloud-l"></div>
+      <div class="cloud cloud-r"></div>
+      <div class="cloud cloud-l2"></div>
+      <div class="cloud cloud-r2"></div>
+    </div>
+    <div class="home-inner">
+      <div class="scroll-badge">取经项目组 · 人格测评</div>
+      <h1 class="hero-title" id="hero-title">职场西游世界，测测你是谁？</h1>
+      <p class="hero-sub">24 道职场情境题，解锁你的取经人格</p>
+      <p class="hero-meta">24 题 · 约 3 分钟 · 13 种取经人格</p>
+      <button class="btn btn-primary" id="btn-start" type="button">开始测试</button>
+      <button class="btn btn-ghost" id="btn-gallery" type="button">查看角色图鉴</button>
+      <p class="resume-hint" id="resume-hint" hidden></p>
+    </div>
+  </section>
+
+  <!-- ============ 测评页 ============ -->
+  <section id="scr-quiz" class="screen">
+    <div class="quiz-head">
+      <div class="quiz-meta">
+        <span>第 <b id="q-num">1</b> / 24 题</span>
+        <span id="q-pct">4%</span>
+      </div>
+      <div class="pbar"><i id="pbar-fill"></i></div>
+    </div>
+    <div id="quiz-body">
+      <div class="qcard">
+        <span class="q-index" id="q-index-label">QUESTION 01</span>
+        <span id="q-text"></span>
+      </div>
+      <div id="opt-list"></div>
+    </div>
+    <div class="nav">
+      <button class="btn btn-ghost" id="btn-prev" type="button">上一题</button>
+      <button class="btn btn-primary" id="btn-next" type="button">下一题</button>
+    </div>
+    <p class="tip" id="quiz-tip">选择后会自动进入下一题</p>
+  </section>
+
+  <!-- ============ 结果页 ============ -->
+  <section id="scr-result" class="screen">
+    <div id="result-root"></div>
+    <div class="actions">
+      <button class="btn btn-primary full" id="btn-poster" type="button">生成分享海报</button>
+      <button class="btn btn-gold" id="btn-teamcard" type="button">生成组队卡</button>
+      <button class="btn btn-ghost" id="btn-copy" type="button">复制分享文案</button>
+      <button class="btn btn-ghost" id="btn-restart" type="button">重新测试</button>
+      <button class="btn btn-ghost full" id="btn-gallery2" type="button">查看角色图鉴</button>
+    </div>
+  </section>
+
+  <!-- ============ 图鉴页 ============ -->
+  <section id="scr-gallery" class="screen">
+    <div class="gal-head">
+      <h2>角色图鉴</h2>
+      <button class="gal-back" id="btn-gal-back" type="button">返回</button>
+    </div>
+    <div class="filters" id="gal-filters"></div>
+    <div class="gal-grid" id="gal-grid"></div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="sound-toggle" id="sound-toggle" type="button" aria-label="音效开关"><span id="sound-icon">🔇</span></button>
+
+<script>
+/* =====================================================================
+ *  DATA
+ * ===================================================================== */
+const DIM_KEYS = ['D1','D2','D3','D4','D5','D6','D7','D8','D9'];
+const DIM_META = {
+  D1:{name:'目标驱动',w:1.0},
+  D2:{name:'破局行动',w:1.2},
+  D3:{name:'规则边界',w:1.2},
+  D4:{name:'协作影响',w:1.2},
+  D5:{name:'稳定交付',w:1.0},
+  D6:{name:'情绪价值',w:1.0},
+  D7:{name:'资源整合',w:1.2},
+  D8:{name:'抗压复原',w:1.0},
+  D9:{name:'快攻节奏',w:1.0}
+};
+
+const QUESTIONS = [
+  { id:1, text:'三个急活同时压过来，你第一反应通常是？', options:[
+    { key:'A', text:'先排优先级，多线程并行推进', score:{D1:2,D9:2,D5:1} },
+    { key:'B', text:'先冲最难的，边打边调', score:{D2:3,D8:1,D3:-1} },
+    { key:'C', text:'先拉齐资源和相关人再动', score:{D4:2,D7:2,D5:1} },
+    { key:'D', text:'先稳住底线交付，别让团队翻车', score:{D5:3,D3:1,D6:1} }
+  ]},
+  { id:2, text:'领导坚持一个明显低效的流程，你会？', options:[
+    { key:'A', text:'当场指出，推动改', score:{D2:2,D3:-2,D8:1} },
+    { key:'B', text:'私下给替代方案和测算', score:{D2:1,D4:2,D3:1,D1:1} },
+    { key:'C', text:'先执行，找机会再优化', score:{D5:2,D3:2,D1:1} },
+    { key:'D', text:'拉数据、找关键人一起说服', score:{D4:2,D7:1,D3:1,D1:1} }
+  ]},
+  { id:3, text:'跨部门合作推不动，你通常？', options:[
+    { key:'A', text:'直接找对方负责人对齐目标', score:{D1:2,D4:2,D2:1} },
+    { key:'B', text:'先找中间人润滑、摸清关系', score:{D4:2,D7:2,D6:1} },
+    { key:'C', text:'把问题升级给领导', score:{D3:2,D1:1,D5:1} },
+    { key:'D', text:'先自己把能做的做掉，减少依赖', score:{D5:3,D2:1,D4:-1} }
+  ]},
+  { id:4, text:'团队气氛低落、项目又紧，你会？', options:[
+    { key:'A', text:'先打气、讲清目标意义', score:{D6:2,D1:2,D4:1} },
+    { key:'B', text:'自己多扛一点，先保交付', score:{D5:3,D8:2,D4:-1} },
+    { key:'C', text:'拉个饭局 / 私下聊，先把人稳住', score:{D6:3,D4:2,D7:1} },
+    { key:'D', text:'复盘问题、调整分工', score:{D1:2,D4:2,D5:1} }
+  ]},
+  { id:5, text:'一个高风险但收益大的机会出现：', options:[
+    { key:'A', text:'先冲，边做边验证', score:{D2:3,D9:2,D3:-1} },
+    { key:'B', text:'先做小范围试点', score:{D2:2,D5:2,D1:1} },
+    { key:'C', text:'先算清风险和资源再决定', score:{D3:2,D7:1,D1:1,D5:1} },
+    { key:'D', text:'先看领导和团队态度', score:{D4:2,D3:2,D6:1} }
+  ]},
+  { id:6, text:'你更习惯的工作节奏是：', options:[
+    { key:'A', text:'多线并行，快速切换', score:{D9:3,D2:1,D8:1} },
+    { key:'B', text:'集中火力，一次打穿一个', score:{D1:2,D2:2,D9:1} },
+    { key:'C', text:'按计划稳步推进', score:{D5:3,D3:2,D9:-1} },
+    { key:'D', text:'看情况灵活切换', score:{D4:1,D8:1,D5:1,D9:1} }
+  ]},
+  { id:7, text:'同事出错拖累进度，你会？', options:[
+    { key:'A', text:'直接指出，先把事补救', score:{D2:2,D3:1,D6:-1} },
+    { key:'B', text:'先帮他补位，事后再说', score:{D5:2,D4:2,D6:1} },
+    { key:'C', text:'私下沟通，给改进建议', score:{D6:2,D4:2,D1:1} },
+    { key:'D', text:'拉团队一起复盘流程', score:{D4:2,D3:2,D1:1} }
+  ]},
+  { id:8, text:'你更在意哪种认可：', options:[
+    { key:'A', text:'搞定别人搞不定的难题', score:{D2:3,D8:1} },
+    { key:'B', text:'团队因为我更顺、更开心', score:{D6:3,D4:2} },
+    { key:'C', text:'交付稳定、几乎不出错', score:{D5:3,D3:2} },
+    { key:'D', text:'拿到关键资源、打通关键关系', score:{D7:3,D4:1} }
+  ]},
+  { id:9, text:'资源不够、时间又紧，你会：', options:[
+    { key:'A', text:'先借力，找外部资源补', score:{D7:3,D4:1,D2:1} },
+    { key:'B', text:'砍需求，保核心目标', score:{D1:3,D5:1} },
+    { key:'C', text:'加班硬扛，先把交付顶上', score:{D8:3,D5:2} },
+    { key:'D', text:'向上要资源、要授权', score:{D7:2,D1:2,D3:1} }
+  ]},
+  { id:10, text:'你对规则和流程的态度更接近：', options:[
+    { key:'A', text:'规则是底线，尽量守', score:{D3:3,D5:2} },
+    { key:'B', text:'规则服务目标，该破就破', score:{D2:2,D3:-2,D1:2} },
+    { key:'C', text:'规则可以优化，但要先沟通', score:{D4:2,D3:1,D1:1} },
+    { key:'D', text:'规则看人看场景，灵活处理', score:{D4:1,D7:1,D3:-1,D6:1} }
+  ]},
+  { id:11, text:'项目失败后，你通常：', options:[
+    { key:'A', text:'快速复盘，马上再战', score:{D8:3,D2:2} },
+    { key:'B', text:'先消化情绪，再找原因', score:{D6:2,D8:2,D5:1} },
+    { key:'C', text:'先理清责任边界，保护团队', score:{D3:2,D4:2,D6:1} },
+    { key:'D', text:'找外部资源和贵人帮忙翻盘', score:{D7:3,D8:1} }
+  ]},
+  { id:12, text:'你在团队里更常扮演：', options:[
+    { key:'A', text:'定目标、扛结果的人', score:{D1:3,D5:1} },
+    { key:'B', text:'冲在前面解决难题的人', score:{D2:3,D8:1} },
+    { key:'C', text:'协调关系、润滑气氛的人', score:{D6:3,D4:2} },
+    { key:'D', text:'默默把事做稳的人', score:{D5:3,D3:1} }
+  ]},
+  { id:13, text:'遇到不熟悉的新任务：', options:[
+    { key:'A', text:'先接过来，边学边干', score:{D2:2,D8:2,D9:1} },
+    { key:'B', text:'先找懂的人问清楚', score:{D4:2,D7:1,D5:1} },
+    { key:'C', text:'先做计划、拆步骤', score:{D1:2,D5:2,D3:1} },
+    { key:'D', text:'先判断值不值得做、能不能推', score:{D1:2,D3:1,D7:1} }
+  ]},
+  { id:14, text:'你更怕哪种工作状态：', options:[
+    { key:'A', text:'没目标、瞎忙', score:{D1:3,D5:1} },
+    { key:'B', text:'没挑战、重复劳动', score:{D2:3,D9:1} },
+    { key:'C', text:'没人配合、孤军奋战', score:{D4:3,D6:1} },
+    { key:'D', text:'资源不够、处处受限', score:{D7:3,D2:1} }
+  ]},
+  { id:15, text:'同时接三个跨部门支援需求，你的做法：', options:[
+    { key:'A', text:'全接，多线程推进，自己排好节奏', score:{D9:3,D2:2,D8:1} },
+    { key:'B', text:'只接最有挑战的那个，打穿它', score:{D2:3,D1:1,D4:-1} },
+    { key:'C', text:'先评估资源，接两个、推一个', score:{D5:2,D1:2,D7:1} },
+    { key:'D', text:'拉上伙伴一起分，自己盯关键节点', score:{D4:2,D7:1,D5:1,D9:1} }
+  ]},
+  { id:16, text:'项目受挫、被领导当众批评，你会：', options:[
+    { key:'A', text:'当场不服就争，事后快速复盘再战', score:{D2:2,D8:2,D3:-1,D6:-1} },
+    { key:'B', text:'先稳住，复盘后拿新方案翻盘', score:{D8:3,D1:2,D5:1} },
+    { key:'C', text:'情绪低落一阵，需要人鼓励', score:{D6:2,D8:-1,D4:1} },
+    { key:'D', text:'找资源、找背书，换个打法再来', score:{D7:2,D8:1,D2:1} }
+  ]},
+  { id:17, text:'团队日常运转中，你更像：', options:[
+    { key:'A', text:'每天稳定输出，大家习惯有你在', score:{D5:3,D3:1} },
+    { key:'B', text:'平时不抢眼，关键时刻顶上去', score:{D8:3,D2:2,D5:1} },
+    { key:'C', text:'哪里缺人补哪里', score:{D4:2,D5:1,D6:1} },
+    { key:'D', text:'盯流程和细节，防止出错', score:{D3:3,D5:2} }
+  ]},
+  { id:18, text:'同事之间起了冲突，你会：', options:[
+    { key:'A', text:'分别聊，帮双方看清问题、给方法', score:{D6:2,D4:2,D7:1} },
+    { key:'B', text:'居中传话、找共同利益点', score:{D4:3,D6:1,D7:1} },
+    { key:'C', text:'按制度上报，交给规则处理', score:{D3:3,D5:1} },
+    { key:'D', text:'先冷处理，等他们自己消化', score:{D5:1,D6:-1,D3:1} }
+  ]},
+  { id:19, text:'关键资源在别人手里，你会：', options:[
+    { key:'A', text:'攒局、换资源，把关系盘活', score:{D7:3,D4:1,D2:1} },
+    { key:'B', text:'守住自己手里的筹码，谈条件', score:{D7:2,D1:2,D3:1} },
+    { key:'C', text:'向上要支持，走正式流程', score:{D3:2,D7:1,D1:1} },
+    { key:'D', text:'绕开它，换条路做', score:{D2:2,D3:-1,D9:1} }
+  ]},
+  { id:20, text:'发现项目有合规 / 质量风险，你会：', options:[
+    { key:'A', text:'立即叫停，按标准整改', score:{D3:3,D5:2} },
+    { key:'B', text:'先评估影响，给整改方案再推进', score:{D3:2,D1:1,D5:1} },
+    { key:'C', text:'先保目标，风险后面再补', score:{D1:3,D2:1,D3:-2} },
+    { key:'D', text:'拉相关方一起定边界', score:{D4:2,D3:2,D7:1} }
+  ]},
+  { id:21, text:'你获取信息和资源的主要方式：', options:[
+    { key:'A', text:'靠人脉和关系，消息灵通', score:{D7:2,D6:2,D4:1} },
+    { key:'B', text:'靠一线走动，熟悉基层情况', score:{D7:2,D5:1,D4:1} },
+    { key:'C', text:'靠正式渠道和数据', score:{D3:2,D5:2} },
+    { key:'D', text:'靠主动试错和打探', score:{D2:2,D7:1,D9:1} }
+  ]},
+  { id:22, text:'团队里有人拖后腿，你会：', options:[
+    { key:'A', text:'直接自己上，把他那份也干了', score:{D2:3,D5:1,D4:-1} },
+    { key:'B', text:'先帮他补位，再教他方法', score:{D4:2,D6:1,D5:2} },
+    { key:'C', text:'拉着他一起干，盯着他改', score:{D4:2,D1:1,D8:1} },
+    { key:'D', text:'反馈给领导，按规则处理', score:{D3:2,D1:1,D5:1} }
+  ]},
+  { id:23, text:'如果让你选一个团队角色，你更愿意：', options:[
+    { key:'A', text:'定方向、扛最终结果', score:{D1:3,D7:1,D5:1}, anchor:{tangseng:0.04,guanyin:0.02} },
+    { key:'B', text:'攻坚最难的模块', score:{D2:3,D8:1}, anchor:{sunwukong:0.04,nezha:0.02} },
+    { key:'C', text:'协调各方、保障团队状态', score:{D4:2,D6:2,D7:1}, anchor:{taibaijinxing:0.04,guanyin:0.02} },
+    { key:'D', text:'把交付做稳、做细', score:{D5:3,D3:1}, anchor:{shaseng:0.04,bailongma:0.02} }
+  ]},
+  { id:24, text:'你更认同哪句话：', options:[
+    { key:'A', text:'目标第一，方法可以变', score:{D1:2,D2:2,D3:-1}, anchor:{sunwukong:0.04,nezha:0.03,honghaier:0.02} },
+    { key:'B', text:'先把事做对，再把事做快', score:{D3:2,D5:2}, anchor:{erlangshen:0.04,shaseng:0.02,tangseng:0.02} },
+    { key:'C', text:'一个人走得快，一群人走得远', score:{D4:2,D6:1,D5:1}, anchor:{guanyin:0.04,taibaijinxing:0.03,zhubajie:0.02} },
+    { key:'D', text:'资源在哪，主动权就在哪', score:{D7:3,D4:1}, anchor:{niumowang:0.04,tieshangongzhu:0.03} }
+  ]}
+];
+
+const ROLES = [
+  { id:'tangseng', name:'唐僧', emoji:'🧘', svgKey:'tangsen', teamSlot:'指挥位',
+    tagline:'目标坚定的取经 PM', archetype:'愿景型项目经理',
+    vector:[9,4,8,7,7,6,7,8,4],
+    strengths:['目标感强，能扛最终结果','会向上要资源，能争到空间','方向清晰，能带团队穿越困难'],
+    blindspots:['战斗力依赖团队，单兵破局偏弱','容易忽视情绪反馈，节奏压得太紧'],
+    partners:[
+      { name:'观音型HRBP', reason:'补资源与团队状态' },
+      { name:'孙悟空型攻坚骨干', reason:'补破局战力' }
+    ],
+    worstManager:'只讲执行不讲目标、频繁变方向的管理',
+    teamGap:'缺唐僧团队会散，唐僧太多团队会慢',
+    achievement:'九九归一——把长跑跑成结果',
+    shareLine:'我是唐僧型取经PM：目标我来扛，战力靠团队',
+    badge89:'你的八十一难是：团队等你拍板，你却在等大家对齐。'
+  },
+  { id:'sunwukong', name:'孙悟空', emoji:'🐵', svgKey:'sunwukong', teamSlot:'攻坚位',
+    tagline:'高能破局王牌骨干', archetype:'攻坚型王牌骨干',
+    vector:[8,10,2,4,4,4,5,9,8],
+    strengths:['解决问题快，别人卡住时你能动','敢打硬仗，越是难啃越来劲','创新破局强，总能找到新解法'],
+    blindspots:['规则意识偏弱，容易先斩后奏','容易单打独斗，协作时摩擦偏大'],
+    partners:[
+      { name:'唐僧型PM', reason:'给方向和边界' },
+      { name:'沙僧型压舱石', reason:'稳住交付' }
+    ],
+    worstManager:'层层审批、只讲流程不讲结果的管理',
+    teamGap:'缺孙悟空难破局，孙悟空太多难协同',
+    achievement:'火眼金睛——一眼看穿问题本质',
+    shareLine:'我是孙悟空型破局骨干：难题给我，规则咱聊聊',
+    badge89:'你的八十一难是：你一个人能干三个人的活，但流程要你填三张表。'
+  },
+  { id:'zhubajie', name:'猪八戒', emoji:'🐷', svgKey:'zhubajie', teamSlot:'协调位',
+    tagline:'团队情绪价值官', archetype:'关系型氛围担当',
+    vector:[5,5,5,8,5,10,8,7,5],
+    strengths:['会沟通，能把僵住的话说开','会缓和气氛，团队有你不闷','关键时刻能救场'],
+    blindspots:['容易摸鱼漂移，需要外部节奏推','目标感需要被激活'],
+    partners:[
+      { name:'沙僧型执行者', reason:'帮他把事落地' },
+      { name:'唐僧型PM', reason:'帮他锚定目标' }
+    ],
+    worstManager:'高压、无反馈、只盯短板的管理',
+    teamGap:'缺八戒团队会闷，八戒太多节奏会散',
+    achievement:'天蓬社交——把关系变成生产力',
+    shareLine:'我是猪八戒型氛围担当：团队开心，交付才稳',
+    badge89:'你的八十一难是：你一开口全组都笑了，但周报还是你最后一个交。'
+  },
+  { id:'shaseng', name:'沙僧', emoji:'🧔', svgKey:'shaseng', teamSlot:'支撑位',
+    tagline:'稳定交付压舱石', archetype:'靠谱运营执行者',
+    vector:[6,4,8,7,10,6,4,7,3],
+    strengths:['稳定可靠，交出去的事基本不用回查','不抢功，团队摩擦小','交付确定性强'],
+    blindspots:['存在感低，容易被当成理所当然','容易默默超载，不说自己的难处'],
+    partners:[
+      { name:'孙悟空型攻坚', reason:'帮他破局' },
+      { name:'观音型HRBP', reason:'帮他表达价值' }
+    ],
+    worstManager:'频繁变目标、忽视稳定贡献的管理',
+    teamGap:'缺沙僧交付会乱，沙僧太多创新会弱',
+    achievement:'流沙成塔——把靠谱变成复利',
+    shareLine:'我是沙僧型压舱石：不抢戏，但交付从不掉链子',
+    badge89:'你的八十一难是：活都是你干的，表彰名单上你总在最后一行。'
+  },
+  { id:'bailongma', name:'白龙马', emoji:'🐴', svgKey:'bailongma', teamSlot:'支撑位',
+    tagline:'低调关键先生 / 女士', archetype:'隐形关键支撑者',
+    vector:[7,6,7,6,8,5,5,8,4],
+    strengths:['平时不争，关键时刻顶得上','承压能力强，越是紧要越稳','不制造噪音，专注把事做成'],
+    blindspots:['不擅长表达价值，容易被忽略','习惯性退后，机会常被抢走'],
+    partners:[
+      { name:'唐僧型PM', reason:'看见他的关键贡献' },
+      { name:'哪吒型突击手', reason:'形成关键互补' }
+    ],
+    worstManager:'只看声量、不看贡献的管理',
+    teamGap:'缺白龙马关键时无人顶，白龙马太多价值会隐形',
+    achievement:'龙马精神——关键一顶扭转全局',
+    shareLine:'我是白龙马型关键支撑：平时不抢镜，关键我顶上',
+    badge89:'你的八十一难是：平时没人想起你，出事第一个找你。'
+  },
+  { id:'guanyin', name:'观音', emoji:'🪷', svgKey:'guanyin', teamSlot:'协调位',
+    tagline:'教练型 HRBP 与资源链接者', archetype:'团队教练与资源协调者',
+    vector:[7,5,7,9,7,9,10,8,5],
+    strengths:['识人，知道谁适合干什么','会救火，能稳住团队状态','能给资源，帮人把事做成'],
+    blindspots:['容易过度兜底，替别人扛责任','不擅长拒绝，容易把自己耗干'],
+    partners:[
+      { name:'唐僧型PM', reason:'一个定方向一个稳团队' },
+      { name:'哪吒型高潜', reason:'给资源让他打' }
+    ],
+    worstManager:'只压任务、不给资源的管理',
+    teamGap:'缺观音团队缺资源，观音太多团队会依赖',
+    achievement:'及时雨——资源到位人心就稳',
+    shareLine:'我是观音型教练HRBP：你缺的不是能力，是资源和人',
+    badge89:'你的八十一难是：你救了所有人，没人问你累不累。'
+  },
+  { id:'taibaijinxing', name:'太白金星', emoji:'🧙', svgKey:'taibaijinxing', teamSlot:'协调位',
+    tagline:'组织外交官', archetype:'跨部门协调官',
+    vector:[6,4,5,10,6,8,8,7,5],
+    strengths:['会润滑，能把对立的人拉到一张桌上','会传话，信息不失真','能协调多方，找出共同利益'],
+    blindspots:['原则边界容易模糊','怕冲突，容易和稀泥'],
+    partners:[
+      { name:'二郎神型风控', reason:'帮他守底线' },
+      { name:'观音型教练', reason:'帮他稳人心' }
+    ],
+    worstManager:'非黑即白、拒绝沟通的管理',
+    teamGap:'缺太白白部门墙高，太白太多容易和稀泥',
+    achievement:'天庭外交——把对立谈成合作',
+    shareLine:'我是太白金星型外交官：部门墙再高，我也能搭个桥',
+    badge89:'你的八十一难是：两边都夸你会说话，两边都觉得你站对面。'
+  },
+  { id:'tudigong', name:'土地公', emoji:'🏮', svgKey:'tudigong', teamSlot:'支撑位',
+    tagline:'基层信息枢纽', archetype:'一线信息节点',
+    vector:[4,4,7,6,7,6,6,6,4],
+    strengths:['接地气，知道真实情况长什么样','信息灵，消息比谁都快','熟悉一线，判断有依据'],
+    blindspots:['视野受限，容易困在局部','信息需要被翻译成决策语言'],
+    partners:[
+      { name:'唐僧型PM', reason:'帮他把一线信息变成决策' },
+      { name:'太白金星型协调官', reason:'帮他把信息传上去' }
+    ],
+    worstManager:'脱离一线、只看报表的管理',
+    teamGap:'缺土地公信息会失真，土地公太多容易局部主义',
+    achievement:'一方土地——最懂一线的人最接近真相',
+    shareLine:'我是土地公型信息枢纽：一线的事，问我最清楚',
+    badge89:'你的八十一难是：你知道所有真相，但你的汇报永远排在最后一个议题。'
+  },
+  { id:'niumowang', name:'牛魔王', emoji:'🐂', svgKey:'niumowang', teamSlot:'攻坚位',
+    tagline:'资源整合型外部合伙人', archetype:'资源型合伙人',
+    vector:[7,7,4,6,5,6,9,7,6],
+    strengths:['资源多，关键时候能调得动','能攒局，把对的人凑到一起','外部影响力强'],
+    blindspots:['站队风险高','边界和忠诚度需要管理'],
+    partners:[
+      { name:'铁扇公主型守门人', reason:'一个攒局一个守资源' },
+      { name:'太白金星型外交官', reason:'帮他处理关系' }
+    ],
+    worstManager:'只讲控制、不讲共赢的管理',
+    teamGap:'缺牛魔王资源会少，牛魔王太多容易山头林立',
+    achievement:'平天大圣——把外部资源变成内部战力',
+    shareLine:'我是牛魔王型资源合伙人：资源我来盘，局我来攒',
+    badge89:'你的八十一难是：你攒的局都成了，功劳簿上写的是别人的名字。'
+  },
+  { id:'tieshangongzhu', name:'铁扇公主', emoji:'🌪️', svgKey:'tieshangongzhu', teamSlot:'支撑位',
+    tagline:'关键资源守门人', archetype:'跨部门关键节点',
+    vector:[8,6,7,5,7,5,8,7,5],
+    strengths:['守得住资源，不会轻易被拿走','有原则，边界清晰','有谈判力，能做等价交换'],
+    blindspots:['容易被误解为难合作','情绪边界要管理'],
+    partners:[
+      { name:'牛魔王型资源合伙人', reason:'一个开源一个守门' },
+      { name:'观音型教练', reason:'帮她缓和协作关系' }
+    ],
+    worstManager:'无边界索取、不尊重资源价值的管理',
+    teamGap:'缺铁扇资源会失控，铁扇太多关键节点会卡',
+    achievement:'芭蕉扇——关键资源一扇定局',
+    shareLine:'我是铁扇公主型资源守门人：资源可以给，条件要谈清',
+    badge89:'你的八十一难是：你守住了预算，所有人都说你难搞。'
+  },
+  { id:'honghaier', name:'红孩儿', emoji:'🔥', svgKey:'honghaier', teamSlot:'攻坚位',
+    tagline:'高潜创新突击手', archetype:'高潜新锐与创新突击手',
+    vector:[7,8,4,3,4,6,4,4,9],
+    strengths:['冲劲足，敢第一个上','点子多，总能想出新打法','学习速度快'],
+    blindspots:['依赖资源背书','耐挫和协作需要打磨'],
+    partners:[
+      { name:'观音型教练', reason:'给资源和边界' },
+      { name:'沙僧型执行者', reason:'帮他把创新落地' }
+    ],
+    worstManager:'只许成功、不许试错的管理',
+    teamGap:'缺红孩儿缺新打法，红孩儿太多团队会不稳',
+    achievement:'三昧真火——新打法烧出新局面',
+    shareLine:'我是红孩儿型创新突击手：新打法我来试，资源你给够',
+    badge89:'你的八十一难是：你的方案很惊艳，但预算会上被砍成了 PPT。'
+  },
+  { id:'erlangshen', name:'二郎神', emoji:'👁️', svgKey:'erlangshen', teamSlot:'支撑位',
+    tagline:'独立风控专家', archetype:'合规审计与独立专家',
+    vector:[8,6,9,4,8,3,6,8,4],
+    strengths:['原则强，底线问题上不含糊','能独立作战，不需要人盯','风险敏感，能提前预警'],
+    blindspots:['容易显得冷硬','协作时需要多解释你的出发点'],
+    partners:[
+      { name:'太白金星型外交官', reason:'帮他软化沟通' },
+      { name:'唐僧型PM', reason:'帮他把风控嵌入目标' }
+    ],
+    worstManager:'只要速度、不要合规的管理',
+    teamGap:'缺二郎神风险会高，二郎神太多决策会保守',
+    achievement:'天眼——风险藏不住一眼看穿',
+    shareLine:'我是二郎神型风控专家：速度可以快，底线不能破',
+    badge89:'你的八十一难是：你提的风险都发生了，但每次都被说“别泼冷水”。'
+  },
+  { id:'nezha', name:'哪吒', emoji:'🛹', svgKey:'nezha', teamSlot:'攻坚位',
+    tagline:'多线程高潜突击手', archetype:'年轻高潜战斗位',
+    vector:[8,9,4,7,6,6,6,9,9],
+    strengths:['反应快，能多线程并行','敢挑战低效流程','抗压后恢复快，能复盘再战'],
+    blindspots:['容易情绪上头','冲太快时忽略复盘和协作边界'],
+    partners:[
+      { name:'观音型教练HRBP', reason:'给资源帮翻译' },
+      { name:'沙僧型压舱石', reason:'稳住交付底线' }
+    ],
+    worstManager:'只讲层级不讲目标的“托塔李天王式管理”',
+    teamGap:'缺哪吒团队会慢，哪吒太多团队会乱',
+    achievement:'莲花化身——越打越稳受挫重生',
+    shareLine:'我是哪吒型多线程高潜：三头六臂不是天生的，是需求堆出来的',
+    badge89:'你的八十一难是：你同时接了五个需求，领导问你为什么还没复盘。'
+  }
+];
+
+const FALLBACK_COLORS = {
+  zhubajie:['#ffe0e7','#f49ab0'],
+  shaseng:['#e0ecf8','#8fb6dd'],
+  bailongma:['#e9f4ff','#a9cdea'],
+  guanyin:['#fff2da','#f5cc8a'],
+  taibaijinxing:['#e8ebff','#a9b4ea'],
+  tudigong:['#ffead8','#e5b58a'],
+  niumowang:['#ece0cc','#b8946a'],
+  tieshangongzhu:['#e3eaff','#9fb2e8'],
+  honghaier:['#ffdfd3','#f5926f'],
+  erlangshen:['#e3f1ef','#8fc4bd']
+};
+
+const TEAM_SLOTS = ['全部','指挥位','攻坚位','支撑位','协调位'];
+
+/* =====================================================================
+ *  ENGINE
+ * ===================================================================== */
+function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+
+const RANGES = (function(){
+  const mn = {}, mx = {};
+  DIM_KEYS.forEach(function(k){ mn[k]=0; mx[k]=0; });
+  QUESTIONS.forEach(function(q){
+    DIM_KEYS.forEach(function(k){
+      const vals = q.options.map(function(o){ return (o.score && o.score[k]) || 0; });
+      mx[k] += Math.max.apply(null, vals);
+      mn[k] += Math.min.apply(null, vals);
+    });
+  });
+  return { min:mn, max:mx };
+})();
+
+function computeRawAndU(answers){
+  const raw = {};
+  DIM_KEYS.forEach(function(k){ raw[k]=0; });
+  QUESTIONS.forEach(function(q,i){
+    const ai = answers[i];
+    if (ai === null || ai === undefined) return;
+    const sc = q.options[ai].score || {};
+    DIM_KEYS.forEach(function(k){ raw[k] += (sc[k] || 0); });
+  });
+  const U = {};
+  DIM_KEYS.forEach(function(k){
+    const span = RANGES.max[k] - RANGES.min[k];
+    U[k] = span === 0 ? 5 : clamp(10 * (raw[k] - RANGES.min[k]) / span, 0, 10);
+  });
+  return { raw:raw, U:U };
+}
+
+function cosine(U, R){
+  let num = 0, sa = 0, sb = 0;
+  for (let i = 0; i < DIM_KEYS.length; i++){
+    const k = DIM_KEYS[i];
+    const w = DIM_META[k].w;
+    const u = U[k];
+    const r = R[i];
+    num += w * u * r;
+    sa  += w * u * u;
+    sb  += w * r * r;
+  }
+  const den = Math.sqrt(sa) * Math.sqrt(sb);
+  return den === 0 ? 0 : num / den;
+}
+
+function computeAnchors(answers){
+  const bonus = {};
+  [22,23].forEach(function(qi){
+    const ai = answers[qi];
+    if (ai === null || ai === undefined) return;
+    const anc = QUESTIONS[qi].options[ai].anchor;
+    if (!anc) return;
+    Object.keys(anc).forEach(function(id){
+      bonus[id] = (bonus[id] || 0) + anc[id];
+    });
+  });
+  return bonus;
+}
+
+function computeExclusions(U){
+  const ex = {};
+  const hits = [];
+  function add(list, rule){
+    let any = false;
+    list.forEach(function(id){ if(!ex[id]){ ex[id]=true; any=true; } });
+    if (any) hits.push(rule);
+  }
+  if (U.D3 < 2 && U.D4 < 3) add(['tangseng','guanyin','erlangshen'], 'U.D3<2 且 U.D4<3 → 排除 唐僧/观音/二郎神');
+  if (U.D6 < 3) add(['guanyin','zhubajie','taibaijinxing'], 'U.D6<3 → 排除 观音/猪八戒/太白金星');
+  if (U.D7 < 3) add(['niumowang','tieshangongzhu'], 'U.D7<3 → 排除 牛魔王/铁扇公主');
+  if (U.D8 < 3) add(['nezha','sunwukong'], 'U.D8<3 → 排除 哪吒/孙悟空');
+  if (U.D9 < 3) add(['honghaier','nezha'], 'U.D9<3 → 排除 红孩儿/哪吒');
+  if (U.D5 < 3) add(['shaseng','bailongma'], 'U.D5<3 → 排除 沙僧/白龙马');
+  return { set:ex, hits:hits };
+}
+
+function evaluate(answers){
+  const ru = computeRawAndU(answers);
+  const anchors = computeAnchors(answers);
+  const exInfo = computeExclusions(ru.U);
+
+  const all = ROLES.map(function(role, idx){
+    const base = cosine(ru.U, role.vector);
+    const bonus = anchors[role.id] || 0;
+    return { role:role, idx:idx, base:base, bonus:bonus, sim:base + bonus };
+  });
+
+  const excludedRoles = all.filter(function(x){ return exInfo.set[x.role.id]; });
+  let pool = all.filter(function(x){ return !exInfo.set[x.role.id]; });
+  let fallback = false;
+  if (pool.length === 0){ pool = all.slice(); fallback = true; }
+
+  pool.sort(function(a,b){ return b.sim - a.sim || a.idx - b.idx; });
+  const allSorted = all.slice().sort(function(a,b){ return b.sim - a.sim || a.idx - b.idx; });
+
+  const top3 = pool.slice(0,3);
+  const t1 = top3[0];
+  const t2 = top3[1] || null;
+
+  let gap = 1, composite = false, secondary = false;
+  if (t2){
+    gap = t1.sim - t2.sim;
+    if (gap < 0.03) composite = true;
+    else if (gap <= 0.06) secondary = true;
+  }
+
+  const pct = Math.round(clamp(t1.sim, 0, 1) * 100);
+  const compositePct = (composite && t2)
+    ? Math.round(t2.sim / (t1.sim + t2.sim) * 100)
+    : 0;
+
+  return {
+    raw:ru.raw, U:ru.U, anchors:anchors,
+    exclusions:exInfo, excludedRoles:excludedRoles,
+    top3:top3, top5:allSorted.slice(0,5), allSorted:allSorted,
+    t1:t1, t2:t2, gap:gap, composite:composite, secondary:secondary,
+    pct:pct, compositePct:compositePct, fallback:fallback
+  };
+}
+
+function findRoleByName(str){
+  const sorted = ROLES.slice().sort(function(a,b){ return b.name.length - a.name.length; });
+  for (let i = 0; i < sorted.length; i++){
+    if (str.indexOf(sorted[i].name) !== -1) return sorted[i];
+  }
+  return null;
+}
+
+function shareTextOf(role){
+  return '我在职场西游世界是【' + role.name + '】型｜' + role.tagline +
+    '。优势：' + role.strengths[0] + '、' + role.strengths[1] +
+    '。最佳搭档：' + role.partners[0].name +
+    '。最怕遇到：' + role.worstManager +
+    '。你是哪个打工人？';
+}
+
+/* =====================================================================
+ *  SVG 角色（全部 13 个 · 内嵌动画）
+ * ===================================================================== */
+const SVG_CHARS = {
+
+  /* ---------------- 唐僧 ---------------- */
+  tangsen: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="tgGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#ffd77a" stop-opacity="0.6"/>' +
+          '<stop offset="100%" stop-color="#ffd77a" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="tgRobe" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#d9463f"/>' +
+          '<stop offset="100%" stop-color="#a82f2b"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="tgSkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffe9d2"/>' +
+          '<stop offset="100%" stop-color="#ffd6b4"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes tgBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes tgSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}' +
+        '@keyframes tgBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes tgLaser{0%,100%{opacity:.55;r:3}50%{opacity:1;r:5}}' +
+        '.tg-breathe{animation:tgBreathe 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.tg-halo{animation:tgSpin 26s linear infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.tg-eye{animation:tgBlink 4.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.tg-laser{animation:tgLaser 2.6s ease-in-out infinite;}' +
+      '</style>' : '') +
+      '<g class="tg-breathe">' +
+        '<ellipse cx="100" cy="182" rx="56" ry="11" fill="url(#tgGlow)"/>' +
+        '<g class="tg-halo">' +
+          '<circle cx="100" cy="78" r="66" fill="none" stroke="#efc55f" stroke-width="2" stroke-dasharray="9 13" opacity="0.85"/>' +
+          '<circle cx="100" cy="78" r="76" fill="none" stroke="#efc55f" stroke-width="1.2" stroke-dasharray="3 15" opacity="0.5"/>' +
+        '</g>' +
+        '<path d="M60 182 Q62 138 100 126 Q138 138 140 182 Z" fill="url(#tgRobe)"/>' +
+        '<path d="M100 126 L88 143 L100 182 L112 143 Z" fill="#fdf8ee"/>' +
+        '<path d="M88 143 Q100 151 112 143" fill="none" stroke="#e8b955" stroke-width="2.5" stroke-linecap="round"/>' +
+        '<path d="M70 148 Q58 158 55 170" fill="none" stroke="#c23a34" stroke-width="13" stroke-linecap="round"/>' +
+        '<path d="M133 148 Q147 142 156 131" fill="none" stroke="#c23a34" stroke-width="13" stroke-linecap="round"/>' +
+        '<g transform="rotate(-10 52 158)">' +
+          '<rect x="30" y="140" width="40" height="50" rx="6" fill="#fdf6e6" stroke="#cdb894" stroke-width="2.5"/>' +
+          '<line x1="38" y1="153" x2="62" y2="153" stroke="#ddd0b4" stroke-width="2.5" stroke-linecap="round"/>' +
+          '<line x1="38" y1="162" x2="62" y2="162" stroke="#ddd0b4" stroke-width="2.5" stroke-linecap="round"/>' +
+          '<line x1="38" y1="171" x2="54" y2="171" stroke="#ddd0b4" stroke-width="2.5" stroke-linecap="round"/>' +
+        '</g>' +
+        '<g transform="rotate(-34 160 124)">' +
+          '<rect x="146" y="119" width="30" height="9" rx="4.5" fill="#3d4d66" stroke="#22303f" stroke-width="2"/>' +
+          '<rect x="149" y="121" width="9" height="5" rx="2.5" fill="#7f9ac2"/>' +
+        '</g>' +
+        '<circle cx="176" cy="108" r="4" fill="#ff5a3c" class="tg-laser"/>' +
+        '<circle cx="100" cy="76" r="44" fill="url(#tgSkin)" stroke="#e6bb95" stroke-width="2.5"/>' +
+        '<circle cx="57" cy="80" r="8" fill="#ffe3c8" stroke="#e6bb95" stroke-width="2.5"/>' +
+        '<circle cx="143" cy="80" r="8" fill="#ffe3c8" stroke="#e6bb95" stroke-width="2.5"/>' +
+        '<ellipse cx="88" cy="52" rx="16" ry="9" fill="#ffffff" opacity="0.5"/>' +
+        '<path d="M77 67 Q86 62 95 67" fill="none" stroke="#c99a6d" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M105 67 Q114 62 123 67" fill="none" stroke="#c99a6d" stroke-width="3" stroke-linecap="round"/>' +
+        '<ellipse class="tg-eye" cx="86" cy="81" rx="5.5" ry="7" fill="#33404f"/>' +
+        '<ellipse class="tg-eye" cx="114" cy="81" rx="5.5" ry="7" fill="#33404f"/>' +
+        '<circle cx="88" cy="78" r="1.8" fill="#fff"/>' +
+        '<circle cx="116" cy="78" r="1.8" fill="#fff"/>' +
+        '<path d="M93 97 Q100 103 107 97" fill="none" stroke="#c4735a" stroke-width="3" stroke-linecap="round"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 孙悟空 ---------------- */
+  sunwukong: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="swGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#ffb968" stop-opacity="0.6"/>' +
+          '<stop offset="100%" stop-color="#ffb968" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="swCoat" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ff9f43"/>' +
+          '<stop offset="100%" stop-color="#e0701f"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="swFur" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffd9a8"/>' +
+          '<stop offset="100%" stop-color="#f5c07f"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes swBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes swCloud{0%,100%{transform:translateX(-6px)}50%{transform:translateX(6px)}}' +
+        '@keyframes swBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes swPulse{0%,100%{filter:drop-shadow(0 0 1px #8fb0f0);opacity:1}50%{filter:drop-shadow(0 0 9px #b9d4ff);opacity:.82}}' +
+        '.sw-breathe{animation:swBreathe 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.sw-cloud{animation:swCloud 3.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.sw-eye{animation:swBlink 3.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.sw-staff{animation:swPulse 2.5s ease-in-out infinite;}' +
+      '</style>' : '') +
+      '<g class="sw-breathe">' +
+        '<ellipse cx="100" cy="184" rx="50" ry="10" fill="url(#swGlow)"/>' +
+        '<g class="sw-cloud">' +
+          '<ellipse cx="68" cy="170" rx="20" ry="12" fill="#e6eef8"/>' +
+          '<ellipse cx="100" cy="172" rx="27" ry="15" fill="#f8fbff"/>' +
+          '<ellipse cx="132" cy="170" rx="20" ry="12" fill="#e6eef8"/>' +
+          '<ellipse cx="84" cy="163" rx="15" ry="10" fill="#ffffff"/>' +
+          '<ellipse cx="116" cy="163" rx="15" ry="10" fill="#ffffff"/>' +
+        '</g>' +
+        '<path d="M62 178 Q64 136 100 124 Q136 136 138 178 Z" fill="url(#swCoat)"/>' +
+        '<path d="M100 124 L90 141 L100 170 L110 141 Z" fill="#fdf8ee"/>' +
+        '<path d="M74 156 L84 148" stroke="#4a3420" stroke-width="3.5" stroke-linecap="round"/>' +
+        '<path d="M118 150 L128 158" stroke="#4a3420" stroke-width="3.5" stroke-linecap="round"/>' +
+        '<path d="M70 166 L80 158" stroke="#4a3420" stroke-width="3.5" stroke-linecap="round"/>' +
+        '<path d="M122 160 L132 168" stroke="#4a3420" stroke-width="3.5" stroke-linecap="round"/>' +
+        '<path d="M136 146 Q150 140 158 128" fill="none" stroke="#e0701f" stroke-width="13" stroke-linecap="round"/>' +
+        '<g class="sw-staff" transform="rotate(22 166 108)">' +
+          '<rect x="158" y="46" width="15" height="124" rx="7.5" fill="#4a6bc4" stroke="#2b3f7a" stroke-width="2.5"/>' +
+          '<rect x="160" y="54" width="11" height="9" rx="2" fill="#9dbcf5"/>' +
+          '<rect x="160" y="68" width="11" height="9" rx="2" fill="#9dbcf5"/>' +
+          '<rect x="160" y="82" width="11" height="9" rx="2" fill="#9dbcf5"/>' +
+          '<rect x="160" y="96" width="11" height="9" rx="2" fill="#9dbcf5"/>' +
+          '<rect x="160" y="110" width="11" height="9" rx="2" fill="#9dbcf5"/>' +
+          '<rect x="160" y="124" width="11" height="9" rx="2" fill="#9dbcf5"/>' +
+          '<rect x="160" y="138" width="11" height="9" rx="2" fill="#9dbcf5"/>' +
+        '</g>' +
+        '<circle cx="100" cy="76" r="44" fill="url(#swFur)" stroke="#d9a066" stroke-width="2.5"/>' +
+        '<path d="M58 64 Q50 34 74 44 Q70 22 90 38 Q98 16 108 38 Q128 22 126 44 Q150 36 142 66 Q122 50 100 50 Q78 50 58 64 Z" fill="#8b5a33"/>' +
+        '<path d="M60 64 Q100 46 140 64" fill="none" stroke="#f2c96a" stroke-width="7" stroke-linecap="round"/>' +
+        '<circle cx="100" cy="52" r="5.5" fill="#ffe9a8" stroke="#e0a92e" stroke-width="2"/>' +
+        '<circle cx="56" cy="80" r="9" fill="#ffd9a8" stroke="#d9a066" stroke-width="2.5"/>' +
+        '<circle cx="144" cy="80" r="9" fill="#ffd9a8" stroke="#d9a066" stroke-width="2.5"/>' +
+        '<ellipse cx="100" cy="90" rx="26" ry="20" fill="#ffeacb"/>' +
+        '<path d="M78 66 Q86 61 94 66" fill="none" stroke="#8b5a33" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M106 66 Q114 61 122 66" fill="none" stroke="#8b5a33" stroke-width="3" stroke-linecap="round"/>' +
+        '<ellipse class="sw-eye" cx="86" cy="78" rx="6" ry="7.5" fill="#2b2b2b"/>' +
+        '<ellipse class="sw-eye" cx="114" cy="78" rx="6" ry="7.5" fill="#2b2b2b"/>' +
+        '<circle cx="88" cy="75" r="2" fill="#fff"/>' +
+        '<circle cx="116" cy="75" r="2" fill="#fff"/>' +
+        '<ellipse cx="100" cy="90" rx="5" ry="3.5" fill="#c98a5c"/>' +
+        '<path d="M90 100 Q100 108 110 100" fill="none" stroke="#b06a3c" stroke-width="3" stroke-linecap="round"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 哪吒 ---------------- */
+  nezha: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="nzGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#ff9d6b" stop-opacity="0.6"/>' +
+          '<stop offset="100%" stop-color="#ff9d6b" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="nzRobe" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#f0553f"/>' +
+          '<stop offset="100%" stop-color="#c02f22"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="nzSkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffeadb"/>' +
+          '<stop offset="100%" stop-color="#ffd8bf"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes nzBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes nzBoard{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(4deg) translateY(-3px)}}' +
+        '@keyframes nzRibbon{0%,100%{transform:rotate(-3.5deg)}50%{transform:rotate(3.5deg)}}' +
+        '@keyframes nzBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '.nz-breathe{animation:nzBreathe 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.nz-board{animation:nzBoard 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.nz-ribbon{animation:nzRibbon 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.nz-ribbon2{animation-duration:2.9s;animation-direction:alternate;}' +
+        '.nz-eye{animation:nzBlink 4.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+      '</style>' : '') +
+      '<g class="nz-breathe">' +
+        '<ellipse cx="100" cy="184" rx="52" ry="10" fill="url(#nzGlow)"/>' +
+        '<g class="nz-board">' +
+          '<ellipse cx="100" cy="174" rx="46" ry="11" fill="#3b3f4a"/>' +
+          '<ellipse cx="100" cy="171" rx="46" ry="11" fill="#5d6373"/>' +
+          '<ellipse cx="100" cy="169" rx="30" ry="6" fill="#8b93a8" opacity="0.75"/>' +
+          '<circle cx="70" cy="180" r="6" fill="#ff8a3d"/>' +
+          '<circle cx="130" cy="180" r="6" fill="#ff8a3d"/>' +
+          '<circle cx="70" cy="180" r="2.5" fill="#ffe9b0"/>' +
+          '<circle cx="130" cy="180" r="2.5" fill="#ffe9b0"/>' +
+        '</g>' +
+        '<path class="nz-ribbon" d="M62 142 Q36 130 42 106 Q48 86 28 80" fill="none" stroke="#e8443a" stroke-width="9" stroke-linecap="round" opacity="0.92"/>' +
+        '<path class="nz-ribbon nz-ribbon2" d="M138 142 Q164 130 158 106 Q152 86 172 80" fill="none" stroke="#e8443a" stroke-width="9" stroke-linecap="round" opacity="0.92"/>' +
+        '<path d="M64 178 Q66 136 100 124 Q134 136 136 178 Z" fill="url(#nzRobe)"/>' +
+        '<path d="M100 124 L91 140 L100 166 L109 140 Z" fill="#fdf8ee"/>' +
+        '<ellipse cx="100" cy="151" rx="30" ry="10" fill="none" stroke="#f2c96a" stroke-width="4.5" opacity="0.95"/>' +
+        '<circle cx="100" cy="80" r="42" fill="url(#nzSkin)" stroke="#e6b898" stroke-width="2.5"/>' +
+        '<circle cx="66" cy="48" r="17" fill="#2f2b3d"/>' +
+        '<circle cx="134" cy="48" r="17" fill="#2f2b3d"/>' +
+        '<circle cx="66" cy="48" r="7" fill="#4a4560"/>' +
+        '<circle cx="134" cy="48" r="7" fill="#4a4560"/>' +
+        '<path d="M58 74 Q60 44 100 44 Q140 44 142 74 Q128 58 100 58 Q72 58 58 74 Z" fill="#2f2b3d"/>' +
+        '<rect x="42" y="70" width="14" height="22" rx="7" fill="#4a6bc4" stroke="#2b3f7a" stroke-width="2"/>' +
+        '<rect x="144" y="70" width="14" height="22" rx="7" fill="#4a6bc4" stroke="#2b3f7a" stroke-width="2"/>' +
+        '<path d="M56 72 Q60 46 100 46 Q140 46 144 72" fill="none" stroke="#4a6bc4" stroke-width="4" stroke-linecap="round" opacity="0.85"/>' +
+        '<path d="M77 71 Q86 66 95 71" fill="none" stroke="#2f2b3d" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M105 71 Q114 66 123 71" fill="none" stroke="#2f2b3d" stroke-width="3" stroke-linecap="round"/>' +
+        '<ellipse class="nz-eye" cx="86" cy="84" rx="6" ry="7.5" fill="#2b2b3a"/>' +
+        '<ellipse class="nz-eye" cx="114" cy="84" rx="6" ry="7.5" fill="#2b2b3a"/>' +
+        '<circle cx="88" cy="81" r="2.2" fill="#fff"/>' +
+        '<circle cx="116" cy="81" r="2.2" fill="#fff"/>' +
+        '<ellipse cx="72" cy="95" rx="7" ry="4.5" fill="#ff9d9d" opacity="0.6"/>' +
+        '<ellipse cx="128" cy="95" rx="7" ry="4.5" fill="#ff9d9d" opacity="0.6"/>' +
+        '<path d="M94 101 Q100 107 106 101" fill="none" stroke="#c4735a" stroke-width="3" stroke-linecap="round"/>' +
+        '<circle cx="100" cy="66" r="3.5" fill="#e8443a"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 猪八戒 ---------------- */
+  zhubajie: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="zbGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#ffb0c0" stop-opacity="0.55"/>' +
+          '<stop offset="100%" stop-color="#ffb0c0" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="zbSkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffd3dc"/>' +
+          '<stop offset="100%" stop-color="#f4a9b9"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="zbVest" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#d9463f"/>' +
+          '<stop offset="100%" stop-color="#a82f2b"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes zbBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes zbBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes zbSteam{0%{opacity:0;transform:translateY(5px) scaleX(.8)}30%{opacity:.9}100%{opacity:0;transform:translateY(-22px) scaleX(1.2)}}' +
+        '.zb-breathe{animation:zbBreathe 3.3s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.zb-eye{animation:zbBlink 4.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.zb-steam{animation:zbSteam 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.zb-steam2{animation-delay:.9s;}' +
+        '.zb-steam3{animation-delay:1.7s;}' +
+      '</style>' : '') +
+      '<g class="zb-breathe">' +
+        '<ellipse cx="100" cy="182" rx="56" ry="11" fill="url(#zbGlow)"/>' +
+        '<path d="M60 178 Q62 134 100 122 Q138 134 140 178 Z" fill="#fdf8ee" stroke="#e3d6c0" stroke-width="2.5"/>' +
+        '<path d="M60 178 Q62 134 100 122 Q138 134 140 178 Z" fill="url(#zbVest)" opacity="0.92"/>' +
+        '<ellipse cx="100" cy="160" rx="27" ry="22" fill="#fdf8ee" stroke="#e3d6c0" stroke-width="2.5"/>' +
+        '<path d="M86 126 Q100 150 114 126" fill="none" stroke="#5b6a7f" stroke-width="3" stroke-linecap="round"/>' +
+        '<rect x="94" y="146" width="20" height="26" rx="4" fill="#ffffff" stroke="#5b6a7f" stroke-width="2.5"/>' +
+        '<line x1="99" y1="154" x2="109" y2="154" stroke="#c3b7a3" stroke-width="2.5" stroke-linecap="round"/>' +
+        '<line x1="99" y1="161" x2="109" y2="161" stroke="#c3b7a3" stroke-width="2.5" stroke-linecap="round"/>' +
+        '<path d="M62 140 Q48 152 45 168" fill="none" stroke="url(#zbVest)" stroke-width="13" stroke-linecap="round"/>' +
+        '<g transform="rotate(-14 44 166)">' +
+          '<rect x="40" y="112" width="8" height="58" rx="4" fill="#b9c3d0" stroke="#7e8b9c" stroke-width="2.5"/>' +
+          '<circle cx="44" cy="110" r="9" fill="#dfe6ee" stroke="#7e8b9c" stroke-width="2.5"/>' +
+          '<circle cx="44" cy="110" r="3.5" fill="#9aa8b8"/>' +
+        '</g>' +
+        '<path d="M138 140 Q152 148 156 160" fill="none" stroke="url(#zbVest)" stroke-width="13" stroke-linecap="round"/>' +
+        '<path d="M140 132 L172 132 L168 168 L144 168 Z" fill="#ffffff" stroke="#cbbca6" stroke-width="2.5"/>' +
+        '<ellipse cx="156" cy="132" rx="16" ry="6" fill="#6b4a30" stroke="#cbbca6" stroke-width="2.5"/>' +
+        '<ellipse cx="156" cy="132" rx="11" ry="3.6" fill="#a97752"/>' +
+        '<path d="M172 140 Q182 144 180 154 Q178 162 170 162" fill="none" stroke="#cbbca6" stroke-width="4" stroke-linecap="round"/>' +
+        '<path class="zb-steam" d="M150 120 Q146 112 150 104" fill="none" stroke="#e8dcc8" stroke-width="3.5" stroke-linecap="round"/>' +
+        '<path class="zb-steam zb-steam2" d="M157 118 Q153 109 157 100" fill="none" stroke="#e8dcc8" stroke-width="3.5" stroke-linecap="round"/>' +
+        '<path class="zb-steam zb-steam3" d="M164 120 Q160 112 164 104" fill="none" stroke="#e8dcc8" stroke-width="3.5" stroke-linecap="round"/>' +
+        '<ellipse cx="58" cy="58" rx="17" ry="22" fill="url(#zbSkin)" stroke="#e08fa2" stroke-width="2.5" transform="rotate(-18 58 58)"/>' +
+        '<ellipse cx="142" cy="58" rx="17" ry="22" fill="url(#zbSkin)" stroke="#e08fa2" stroke-width="2.5" transform="rotate(18 142 58)"/>' +
+        '<circle cx="100" cy="78" r="44" fill="url(#zbSkin)" stroke="#e08fa2" stroke-width="2.5"/>' +
+        '<ellipse cx="100" cy="94" rx="17" ry="13" fill="#f7bcc9" stroke="#e08fa2" stroke-width="2.5"/>' +
+        '<ellipse cx="94" cy="94" rx="3" ry="4" fill="#c9788c"/>' +
+        '<ellipse cx="106" cy="94" rx="3" ry="4" fill="#c9788c"/>' +
+        '<ellipse class="zb-eye" cx="82" cy="72" rx="5.5" ry="7" fill="#3a2e33"/>' +
+        '<ellipse class="zb-eye" cx="118" cy="72" rx="5.5" ry="7" fill="#3a2e33"/>' +
+        '<circle cx="84" cy="69" r="1.8" fill="#fff"/>' +
+        '<circle cx="120" cy="69" r="1.8" fill="#fff"/>' +
+        '<path d="M73 60 Q82 55 91 60" fill="none" stroke="#a9717f" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M109 60 Q118 55 127 60" fill="none" stroke="#a9717f" stroke-width="3" stroke-linecap="round"/>' +
+        '<ellipse cx="70" cy="88" rx="8" ry="5" fill="#f79aae" opacity="0.55"/>' +
+        '<ellipse cx="130" cy="88" rx="8" ry="5" fill="#f79aae" opacity="0.55"/>' +
+        '<path d="M92 106 Q100 111 108 106" fill="none" stroke="#c9788c" stroke-width="3" stroke-linecap="round"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 沙僧 ---------------- */
+  shaseng: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="ssGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#8fa8c8" stop-opacity="0.5"/>' +
+          '<stop offset="100%" stop-color="#8fa8c8" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="ssSkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffe9d2"/>' +
+          '<stop offset="100%" stop-color="#f5d0ae"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="ssSuit" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#5d7089"/>' +
+          '<stop offset="100%" stop-color="#3c4a5c"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes ssBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes ssBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes ssFolder{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}' +
+        '.ss-breathe{animation:ssBreathe 3.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.ss-eye{animation:ssBlink 4.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.ss-folder{animation:ssFolder 2.9s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+      '</style>' : '') +
+      '<g class="ss-breathe">' +
+        '<ellipse cx="100" cy="182" rx="56" ry="11" fill="url(#ssGlow)"/>' +
+        '<path d="M60 178 Q62 134 100 122 Q138 134 140 178 Z" fill="url(#ssSuit)" stroke="#2f3a48" stroke-width="2.5"/>' +
+        '<path d="M88 124 L100 152 L112 124 Z" fill="#fdf8ee" stroke="#d8cdbb" stroke-width="2"/>' +
+        '<path d="M100 128 L97 146 L100 154 L103 146 Z" fill="#c43b2f"/>' +
+        '<path d="M82 126 Q100 150 118 126" fill="none" stroke="#d9a441" stroke-width="3" stroke-linecap="round"/>' +
+        '<g class="ss-folder">' +
+          '<rect x="66" y="148" width="60" height="34" rx="5" fill="#f3e9d6" stroke="#c9bda8" stroke-width="2.5" transform="rotate(-7 96 165)"/>' +
+          '<rect x="68" y="154" width="60" height="34" rx="5" fill="#fdf8ee" stroke="#c9bda8" stroke-width="2.5" transform="rotate(-2 98 171)"/>' +
+          '<rect x="70" y="160" width="60" height="34" rx="5" fill="#ffffff" stroke="#c9bda8" stroke-width="2.5" transform="rotate(3 100 177)"/>' +
+          '<line x1="80" y1="172" x2="110" y2="170" stroke="#d9c9ad" stroke-width="2.5" stroke-linecap="round"/>' +
+          '<line x1="80" y1="181" x2="104" y2="179" stroke="#d9c9ad" stroke-width="2.5" stroke-linecap="round"/>' +
+        '</g>' +
+        '<path d="M62 140 Q50 152 48 168" fill="none" stroke="url(#ssSuit)" stroke-width="13" stroke-linecap="round"/>' +
+        '<path d="M138 140 Q152 148 158 158" fill="none" stroke="url(#ssSuit)" stroke-width="13" stroke-linecap="round"/>' +
+        '<g transform="rotate(-28 162 150)">' +
+          '<rect x="156" y="94" width="10" height="62" rx="5" fill="#b9a179" stroke="#8a7352" stroke-width="2.5"/>' +
+          '<rect x="148" y="84" width="26" height="18" rx="5" fill="#cfd6de" stroke="#7e8b9c" stroke-width="2.5"/>' +
+          '<rect x="152" y="88" width="18" height="5" rx="2.5" fill="#9aa8b8"/>' +
+        '</g>' +
+        '<circle cx="100" cy="78" r="44" fill="url(#ssSkin)" stroke="#d9b18a" stroke-width="2.5"/>' +
+        '<path d="M56 72 Q60 34 100 34 Q140 34 144 72 Q128 54 100 54 Q72 54 56 72 Z" fill="#4a5a6e" stroke="#2f3a48" stroke-width="2.5"/>' +
+        '<rect x="94" y="30" width="12" height="11" rx="3" fill="#d9a441" stroke="#a67d24" stroke-width="2"/>' +
+        '<path d="M72 72 Q82 66 92 72" fill="none" stroke="#5c4632" stroke-width="3.5" stroke-linecap="round"/>' +
+        '<path d="M108 72 Q118 66 128 72" fill="none" stroke="#5c4632" stroke-width="3.5" stroke-linecap="round"/>' +
+        '<ellipse class="ss-eye" cx="83" cy="82" rx="5.5" ry="7" fill="#3a2f26"/>' +
+        '<ellipse class="ss-eye" cx="117" cy="82" rx="5.5" ry="7" fill="#3a2f26"/>' +
+        '<circle cx="85" cy="79" r="1.8" fill="#fff"/>' +
+        '<circle cx="119" cy="79" r="1.8" fill="#fff"/>' +
+        '<path d="M60 84 Q64 122 100 124 Q136 122 140 84 Q126 110 100 110 Q74 110 60 84 Z" fill="#5b4632" stroke="#43331f" stroke-width="2.5"/>' +
+        '<path d="M92 108 Q100 114 108 108" fill="none" stroke="#e0b9a0" stroke-width="3" stroke-linecap="round"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 白龙马 ---------------- */
+  bailongma: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="blmGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#a9d6f5" stop-opacity="0.55"/>' +
+          '<stop offset="100%" stop-color="#a9d6f5" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="blmWhite" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffffff"/>' +
+          '<stop offset="100%" stop-color="#e6edf5"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="blmMane" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#8fc4ec"/>' +
+          '<stop offset="100%" stop-color="#4a7fb5"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="blmTie" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#4a6b9e"/>' +
+          '<stop offset="100%" stop-color="#26395c"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes blmBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes blmBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes blmSpark{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}' +
+        '.blm-breathe{animation:blmBreathe 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.blm-eye{animation:blmBlink 4.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.blm-spark{animation:blmSpark 2.7s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.blm-spark2{animation-delay:.6s;}' +
+        '.blm-spark3{animation-delay:1.2s;}' +
+        '.blm-spark4{animation-delay:1.8s;}' +
+      '</style>' : '') +
+      '<g class="blm-breathe">' +
+        '<ellipse cx="100" cy="182" rx="54" ry="11" fill="url(#blmGlow)"/>' +
+        '<path d="M60 178 Q62 134 100 122 Q138 134 140 178 Z" fill="url(#blmWhite)" stroke="#c3d0de" stroke-width="2.5"/>' +
+        '<path d="M88 124 L100 152 L112 124 Z" fill="#f4f8fc" stroke="#c3d0de" stroke-width="2"/>' +
+        '<path d="M100 128 L96 146 L100 160 L106 146 Z" fill="url(#blmTie)"/>' +
+        '<path d="M138 140 Q154 148 160 160" fill="none" stroke="url(#blmWhite)" stroke-width="13" stroke-linecap="round"/>' +
+        '<path d="M62 140 Q50 152 48 166" fill="none" stroke="url(#blmWhite)" stroke-width="13" stroke-linecap="round"/>' +
+        '<rect x="136" y="158" width="46" height="34" rx="7" fill="#6b5844" stroke="#4a3c2c" stroke-width="2.5"/>' +
+        '<path d="M146 158 L146 150 Q146 144 152 144 L166 144 Q172 144 172 150 L172 158" fill="none" stroke="#4a3c2c" stroke-width="3"/>' +
+        '<rect x="150" y="168" width="18" height="5" rx="2.5" fill="#d9a441"/>' +
+        '<ellipse cx="100" cy="78" rx="34" ry="40" fill="url(#blmWhite)" stroke="#c3d0de" stroke-width="2.5"/>' +
+        '<ellipse cx="100" cy="104" rx="23" ry="17" fill="url(#blmWhite)" stroke="#c3d0de" stroke-width="2.5"/>' +
+        '<path d="M72 46 L62 16 L88 34 Z" fill="url(#blmWhite)" stroke="#c3d0de" stroke-width="2.5"/>' +
+        '<path d="M128 46 L138 16 L112 34 Z" fill="url(#blmWhite)" stroke="#c3d0de" stroke-width="2.5"/>' +
+        '<path d="M66 52 Q58 22 88 26 Q84 10 106 18 Q120 6 126 26 Q146 22 136 52 Q120 34 100 34 Q80 34 66 52 Z" fill="url(#blmMane)"/>' +
+        '<path d="M88 108 Q92 112 96 108" fill="none" stroke="#a9bccd" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M104 108 Q108 112 112 108" fill="none" stroke="#a9bccd" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M92 118 Q100 122 108 118" fill="none" stroke="#a9bccd" stroke-width="3" stroke-linecap="round"/>' +
+        '<ellipse class="blm-eye" cx="84" cy="76" rx="6" ry="8" fill="#2b3a4a"/>' +
+        '<ellipse class="blm-eye" cx="116" cy="76" rx="6" ry="8" fill="#2b3a4a"/>' +
+        '<circle cx="86" cy="73" r="2.2" fill="#fff"/>' +
+        '<circle cx="118" cy="73" r="2.2" fill="#fff"/>' +
+        '<path d="M74 64 Q82 59 90 64" fill="none" stroke="#9fb3c6" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M110 64 Q118 59 126 64" fill="none" stroke="#9fb3c6" stroke-width="3" stroke-linecap="round"/>' +
+        '<circle class="blm-spark" cx="66" cy="40" r="4" fill="#9fdcff"/>' +
+        '<circle class="blm-spark blm-spark2" cx="132" cy="44" r="3.5" fill="#9fdcff"/>' +
+        '<circle class="blm-spark blm-spark3" cx="74" cy="120" r="3.5" fill="#9fdcff"/>' +
+        '<circle class="blm-spark blm-spark4" cx="130" cy="116" r="4" fill="#9fdcff"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 观音 ---------------- */
+  guanyin: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="gyGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#ffd77a" stop-opacity="0.6"/>' +
+          '<stop offset="100%" stop-color="#ffd77a" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="gyRobe" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffffff"/>' +
+          '<stop offset="100%" stop-color="#e8f2f4"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="gySkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#fff0dd"/>' +
+          '<stop offset="100%" stop-color="#ffdcc0"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="gyPetal" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#f9dbe6"/>' +
+          '<stop offset="100%" stop-color="#e8b7c8"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes gyBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes gyBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes gySpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}' +
+        '@keyframes gyLight{0%{opacity:0;transform:translateY(6px)}30%{opacity:.95}100%{opacity:0;transform:translateY(-18px)}}' +
+        '.gy-breathe{animation:gyBreathe 3.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.gy-eye{animation:gyBlink 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.gy-halo{animation:gySpin 24s linear infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.gy-light{animation:gyLight 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.gy-light2{animation-delay:1s;}' +
+        '.gy-light3{animation-delay:2s;}' +
+      '</style>' : '') +
+      '<g class="gy-breathe">' +
+        '<ellipse cx="100" cy="182" rx="56" ry="11" fill="url(#gyGlow)"/>' +
+        '<path d="M100 190 Q78 172 72 158 Q90 164 100 178 Q110 164 128 158 Q122 172 100 190 Z" fill="url(#gyPetal)" stroke="#d6a4b6" stroke-width="2.5"/>' +
+        '<ellipse cx="76" cy="170" rx="15" ry="9" fill="url(#gyPetal)" stroke="#d6a4b6" stroke-width="2.5" transform="rotate(-28 76 170)"/>' +
+        '<ellipse cx="124" cy="170" rx="15" ry="9" fill="url(#gyPetal)" stroke="#d6a4b6" stroke-width="2.5" transform="rotate(28 124 170)"/>' +
+        '<ellipse cx="100" cy="174" rx="17" ry="10" fill="url(#gyPetal)" stroke="#d6a4b6" stroke-width="2.5"/>' +
+        '<path d="M62 174 Q64 132 100 120 Q136 132 138 174 Z" fill="url(#gyRobe)" stroke="#c9dde3" stroke-width="2.5"/>' +
+        '<path d="M100 122 L90 138 L100 172 L110 138 Z" fill="#fdf8ee" stroke="#e3d6c0" stroke-width="2"/>' +
+        '<path d="M60 146 Q42 152 36 168" fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round"/>' +
+        '<path d="M140 146 Q158 150 164 164" fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round"/>' +
+        '<g class="gy-halo">' +
+          '<circle cx="100" cy="76" r="60" fill="none" stroke="#efc55f" stroke-width="2.5" stroke-dasharray="11 14" opacity="0.9"/>' +
+          '<circle cx="100" cy="76" r="70" fill="none" stroke="#efc55f" stroke-width="1.4" stroke-dasharray="3 17" opacity="0.55"/>' +
+        '</g>' +
+        '<circle cx="100" cy="78" r="43" fill="url(#gySkin)" stroke="#e6bb95" stroke-width="2.5"/>' +
+        '<circle cx="78" cy="40" r="13" fill="#3a3230" stroke="#241d1c" stroke-width="2.5"/>' +
+        '<circle cx="122" cy="40" r="13" fill="#3a3230" stroke="#241d1c" stroke-width="2.5"/>' +
+        '<path d="M60 70 Q64 38 100 38 Q136 38 140 70 Q126 54 100 54 Q74 54 60 70 Z" fill="#3a3230"/>' +
+        '<circle cx="100" cy="30" r="6" fill="#efc55f" stroke="#bd8a2a" stroke-width="2"/>' +
+        '<path d="M78 68 Q86 63 94 68" fill="none" stroke="#c99a6d" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M106 68 Q114 63 122 68" fill="none" stroke="#c99a6d" stroke-width="3" stroke-linecap="round"/>' +
+        '<ellipse class="gy-eye" cx="86" cy="80" rx="5.5" ry="7" fill="#3a3230"/>' +
+        '<ellipse class="gy-eye" cx="114" cy="80" rx="5.5" ry="7" fill="#3a3230"/>' +
+        '<circle cx="88" cy="77" r="1.8" fill="#fff"/>' +
+        '<circle cx="116" cy="77" r="1.8" fill="#fff"/>' +
+        '<circle cx="100" cy="66" r="3" fill="#e0574a"/>' +
+        '<path d="M94 98 Q100 103 106 98" fill="none" stroke="#c4735a" stroke-width="3" stroke-linecap="round"/>' +
+        '<g transform="rotate(-8 40 152)">' +
+          '<rect x="30" y="140" width="46" height="34" rx="6" fill="#3d4a5c" stroke="#26303d" stroke-width="2.5"/>' +
+          '<rect x="34" y="144" width="38" height="26" rx="3" fill="#8fd0c8"/>' +
+          '<line x1="38" y1="151" x2="60" y2="151" stroke="#f0fbf8" stroke-width="2.5" stroke-linecap="round"/>' +
+          '<line x1="38" y1="158" x2="54" y2="158" stroke="#f0fbf8" stroke-width="2.5" stroke-linecap="round"/>' +
+        '</g>' +
+        '<g transform="rotate(10 160 146)">' +
+          '<path d="M154 126 Q162 126 162 134 L160 158 Q160 166 152 166 Q144 166 144 158 L142 134 Q142 126 150 126 Z" fill="#e8f6f9" stroke="#9fc4cf" stroke-width="2.5"/>' +
+          '<rect x="147" y="118" width="12" height="10" rx="3" fill="#cfe8ee" stroke="#9fc4cf" stroke-width="2"/>' +
+          '<ellipse cx="152" cy="148" rx="6" ry="8" fill="#a9e2e8" opacity="0.7"/>' +
+        '</g>' +
+        '<circle class="gy-light" cx="152" cy="112" r="3.5" fill="#ffe9a8"/>' +
+        '<circle class="gy-light gy-light2" cx="164" cy="104" r="2.8" fill="#ffe9a8"/>' +
+        '<circle class="gy-light gy-light3" cx="146" cy="98" r="2.8" fill="#ffe9a8"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 太白金星 ---------------- */
+  taibaijinxing: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="tbGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#c8c2ff" stop-opacity="0.5"/>' +
+          '<stop offset="100%" stop-color="#c8c2ff" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="tbSuit" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#4f5568"/>' +
+          '<stop offset="100%" stop-color="#31364a"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="tbSkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffeee0"/>' +
+          '<stop offset="100%" stop-color="#ffd9bd"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes tbBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes tbBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes tbStar{0%,100%{opacity:.3;transform:scale(.75)}50%{opacity:1;transform:scale(1.2)}}' +
+        '@keyframes tbWhisk{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}' +
+        '.tb-breathe{animation:tbBreathe 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.tb-eye{animation:tbBlink 4.7s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.tb-star{animation:tbStar 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.tb-star2{animation-delay:.8s;}' +
+        '.tb-star3{animation-delay:1.5s;}' +
+        '.tb-whisk{animation:tbWhisk 3.1s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom center;}' +
+      '</style>' : '') +
+      '<g class="tb-breathe">' +
+        '<ellipse cx="100" cy="182" rx="56" ry="11" fill="url(#tbGlow)"/>' +
+        '<path d="M60 178 Q62 134 100 122 Q138 134 140 178 Z" fill="url(#tbSuit)" stroke="#252a3a" stroke-width="2.5"/>' +
+        '<path d="M88 124 L100 152 L112 124 Z" fill="#fdf8ee" stroke="#d8cdbb" stroke-width="2"/>' +
+        '<path d="M100 128 L96 148 L100 158 L104 148 Z" fill="#8f7bd6"/>' +
+        '<path d="M56 144 L46 132" stroke="#252a3a" stroke-width="11" stroke-linecap="round"/>' +
+        '<path d="M138 142 Q152 150 158 162" fill="none" stroke="url(#tbSuit)" stroke-width="13" stroke-linecap="round"/>' +
+        '<path d="M62 140 Q50 152 48 166" fill="none" stroke="url(#tbSuit)" stroke-width="13" stroke-linecap="round"/>' +
+        '<g transform="rotate(-16 44 158)">' +
+          '<rect x="40" y="110" width="8" height="56" rx="4" fill="#c9a24a" stroke="#96762f" stroke-width="2.5"/>' +
+          '<path d="M40 110 L48 110 L44 96 Z" fill="#3a3f52" stroke="#252a3a" stroke-width="2.5"/>' +
+        '</g>' +
+        '<g class="tb-whisk" transform="rotate(-16 44 158)">' +
+          '<path d="M40 96 Q26 82 22 62" fill="none" stroke="#f2f0ff" stroke-width="3" stroke-linecap="round"/>' +
+          '<path d="M44 96 Q40 78 42 58" fill="none" stroke="#f2f0ff" stroke-width="3" stroke-linecap="round"/>' +
+          '<path d="M48 96 Q56 80 62 62" fill="none" stroke="#f2f0ff" stroke-width="3" stroke-linecap="round"/>' +
+        '</g>' +
+        '<g transform="rotate(8 162 156)">' +
+          '<rect x="150" y="146" width="26" height="34" rx="4" fill="#3a3f52" stroke="#252a3a" stroke-width="2.5"/>' +
+          '<rect x="154" y="152" width="18" height="10" rx="2" fill="#fdf8ee"/>' +
+          '<line x1="156" y1="157" x2="170" y2="157" stroke="#a9a3c9" stroke-width="2"/>' +
+          '<rect x="154" y="168" width="18" height="8" rx="2" fill="#8f7bd6"/>' +
+        '</g>' +
+        '<circle cx="100" cy="78" r="43" fill="url(#tbSkin)" stroke="#e6bb95" stroke-width="2.5"/>' +
+        '<path d="M58 74 Q60 34 100 34 Q140 34 142 74 Q128 56 100 56 Q72 56 58 74 Z" fill="#f4f2ff" stroke="#d5d0e8" stroke-width="2.5"/>' +
+        '<circle cx="100" cy="30" r="9" fill="#f4f2ff" stroke="#d5d0e8" stroke-width="2.5"/>' +
+        '<path d="M76 66 Q86 61 95 66" fill="none" stroke="#cfc6e8" stroke-width="4" stroke-linecap="round"/>' +
+        '<path d="M105 66 Q114 61 124 66" fill="none" stroke="#cfc6e8" stroke-width="4" stroke-linecap="round"/>' +
+        '<ellipse class="tb-eye" cx="86" cy="79" rx="5.5" ry="6.5" fill="#3a3546"/>' +
+        '<ellipse class="tb-eye" cx="114" cy="79" rx="5.5" ry="6.5" fill="#3a3546"/>' +
+        '<circle cx="88" cy="76.5" r="1.8" fill="#fff"/>' +
+        '<circle cx="116" cy="76.5" r="1.8" fill="#fff"/>' +
+        '<path d="M68 94 Q72 118 100 120 Q128 118 132 94 Q120 108 100 108 Q80 108 68 94 Z" fill="#f4f2ff" stroke="#d5d0e8" stroke-width="2.5"/>' +
+        '<path d="M92 100 Q100 105 108 100" fill="none" stroke="#c9a18a" stroke-width="3" stroke-linecap="round"/>' +
+        '<path class="tb-star" d="M72 140 L74 146 L80 148 L74 150 L72 156 L70 150 L64 148 L70 146 Z" fill="#ffd77a"/>' +
+        '<path class="tb-star tb-star2" d="M126 136 L128 141 L133 143 L128 145 L126 150 L124 145 L119 143 L124 141 Z" fill="#ffd77a"/>' +
+        '<path class="tb-star tb-star3" d="M100 134 L101.6 138 L106 139.5 L101.6 141 L100 145 L98.4 141 L94 139.5 L98.4 138 Z" fill="#ffe9a8"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 土地公 ---------------- */
+  tudigong: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="tdgGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#f5c98a" stop-opacity="0.55"/>' +
+          '<stop offset="100%" stop-color="#f5c98a" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="tdgSkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffe7cc"/>' +
+          '<stop offset="100%" stop-color="#f3c9a0"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="tdgRobe" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#c99a5c"/>' +
+          '<stop offset="100%" stop-color="#96703c"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes tdgBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}' +
+        '@keyframes tdgBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes tdgWave{0%{opacity:.05;transform:scale(.55)}45%{opacity:.85}100%{opacity:0;transform:scale(1.35)}}' +
+        '.tdg-breathe{animation:tdgBreathe 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.tdg-eye{animation:tdgBlink 5s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.tdg-wave{animation:tdgWave 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.tdg-wave2{animation-delay:.85s;}' +
+        '.tdg-wave3{animation-delay:1.7s;}' +
+      '</style>' : '') +
+      '<g class="tdg-breathe">' +
+        '<ellipse cx="100" cy="184" rx="54" ry="10" fill="url(#tdgGlow)"/>' +
+        '<path d="M58 182 Q66 174 78 178 Q90 172 100 178 Q112 172 124 178 Q136 174 144 182 Z" fill="#b98f56" stroke="#8f6a38" stroke-width="2.5"/>' +
+        '<path d="M60 174 Q62 138 100 126 Q138 138 140 174 Z" fill="url(#tdgRobe)" stroke="#7b5a2e" stroke-width="2.5"/>' +
+        '<path d="M100 128 L90 142 L100 172 L110 142 Z" fill="#fdf3e0" stroke="#dcc7a4" stroke-width="2"/>' +
+        '<path d="M84 128 Q100 150 116 128" fill="none" stroke="#e6c78a" stroke-width="3" stroke-linecap="round"/>' +
+        '<rect x="128" y="146" width="18" height="26" rx="4" fill="#3a3f52" stroke="#252a3a" stroke-width="2.5"/>' +
+        '<rect x="132" y="152" width="10" height="8" rx="2" fill="#8fd0c8"/>' +
+        '<line x1="137" y1="146" x2="137" y2="136" stroke="#252a3a" stroke-width="3" stroke-linecap="round"/>' +
+        '<circle cx="137" cy="134" r="3" fill="#3a3f52"/>' +
+        '<path class="tdg-wave" d="M150 150 Q158 144 158 134" fill="none" stroke="#8fd0c8" stroke-width="3" stroke-linecap="round"/>' +
+        '<path class="tdg-wave tdg-wave2" d="M152 158 Q164 150 164 134" fill="none" stroke="#8fd0c8" stroke-width="3" stroke-linecap="round"/>' +
+        '<path class="tdg-wave tdg-wave3" d="M154 166 Q170 156 170 134" fill="none" stroke="#8fd0c8" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M62 144 Q50 154 48 168" fill="none" stroke="url(#tdgRobe)" stroke-width="12" stroke-linecap="round"/>' +
+        '<g transform="rotate(-18 44 150)">' +
+          '<rect x="42" y="92" width="7" height="60" rx="3.5" fill="#b9c3d0" stroke="#7e8b9c" stroke-width="2.5"/>' +
+          '<rect x="34" y="82" width="24" height="15" rx="3" fill="#3d4a5c" stroke="#26303d" stroke-width="2.5"/>' +
+          '<rect x="37" y="85" width="18" height="9" rx="1.5" fill="#8fd0c8"/>' +
+        '</g>' +
+        '<circle cx="100" cy="76" r="45" fill="url(#tdgSkin)" stroke="#dcae7f" stroke-width="2.5"/>' +
+        '<path d="M62 72 Q66 36 100 36 Q134 36 138 72 Q124 56 100 56 Q76 56 62 72 Z" fill="#f7f4ee" stroke="#d8d2c6" stroke-width="2.5"/>' +
+        '<path d="M66 68 Q82 60 96 68" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>' +
+        '<path d="M104 68 Q118 60 134 68" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>' +
+        '<ellipse class="tdg-eye" cx="84" cy="80" rx="5" ry="6.5" fill="#3a2f26"/>' +
+        '<ellipse class="tdg-eye" cx="116" cy="80" rx="5" ry="6.5" fill="#3a2f26"/>' +
+        '<circle cx="86" cy="77.5" r="1.7" fill="#fff"/>' +
+        '<circle cx="118" cy="77.5" r="1.7" fill="#fff"/>' +
+        '<circle cx="100" cy="88" r="4" fill="#e8b393"/>' +
+        '<path d="M70 96 Q72 118 100 120 Q128 118 130 96 Q118 110 100 110 Q82 110 70 96 Z" fill="#f7f4ee" stroke="#d8d2c6" stroke-width="2.5"/>' +
+        '<path d="M92 102 Q100 107 108 102" fill="none" stroke="#c9a18a" stroke-width="3" stroke-linecap="round"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 牛魔王 ---------------- */
+  niumowang: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="nmGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#d7b78a" stop-opacity="0.55"/>' +
+          '<stop offset="100%" stop-color="#d7b78a" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="nmSuit" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#4a4238"/>' +
+          '<stop offset="100%" stop-color="#2b2620"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="nmSkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#e8c9a4"/>' +
+          '<stop offset="100%" stop-color="#cfa87c"/>' +
+        '</linearGradient>' +
+        '<clipPath id="nmClip"><rect x="58" y="64" width="84" height="28" rx="14"/></clipPath>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes nmBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes nmBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes nmShine{0%{transform:translateX(-58px)}55%,100%{transform:translateX(88px)}}' +
+        '.nm-breathe{animation:nmBreathe 3.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.nm-eye{animation:nmBlink 4.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.nm-shine{animation:nmShine 3.4s ease-in-out infinite;}' +
+      '</style>' : '') +
+      '<g class="nm-breathe">' +
+        '<ellipse cx="100" cy="182" rx="58" ry="11" fill="url(#nmGlow)"/>' +
+        '<path d="M52 178 Q54 130 100 118 Q146 130 148 178 Z" fill="url(#nmSuit)" stroke="#1b1712" stroke-width="2.5"/>' +
+        '<path d="M88 120 L100 152 L112 120 Z" fill="#f3ece0" stroke="#cbbfa8" stroke-width="2"/>' +
+        '<path d="M100 126 L96 148 L100 158 L104 148 Z" fill="#8a1f1a"/>' +
+        '<path d="M58 140 Q44 154 42 170" fill="none" stroke="url(#nmSuit)" stroke-width="14" stroke-linecap="round"/>' +
+        '<path d="M142 140 Q158 150 164 160" fill="none" stroke="url(#nmSuit)" stroke-width="14" stroke-linecap="round"/>' +
+        '<g transform="rotate(18 168 148)">' +
+          '<rect x="163" y="102" width="10" height="52" rx="5" fill="#2b2620" stroke="#100d0a" stroke-width="2.5"/>' +
+          '<path d="M163 102 L173 102 L168 86 Z" fill="#d9a441" stroke="#96762f" stroke-width="2.5"/>' +
+          '<rect x="163" y="152" width="10" height="14" rx="3" fill="#d9a441"/>' +
+        '</g>' +
+        '<path d="M60 46 Q38 28 34 6 Q56 18 76 34" fill="#f0e2c6" stroke="#b09a72" stroke-width="3" stroke-linejoin="round"/>' +
+        '<path d="M140 46 Q162 28 166 6 Q144 18 124 34" fill="#f0e2c6" stroke="#b09a72" stroke-width="3" stroke-linejoin="round"/>' +
+        '<circle cx="100" cy="78" r="44" fill="url(#nmSkin)" stroke="#b08a5e" stroke-width="2.5"/>' +
+        '<path d="M58 64 Q62 36 100 36 Q138 36 142 64 Q126 50 100 50 Q74 50 58 64 Z" fill="#3a3128"/>' +
+        '<rect x="58" y="64" width="84" height="28" rx="14" fill="#20242c" stroke="#111318" stroke-width="2.5"/>' +
+        '<line x1="100" y1="66" x2="100" y2="90" stroke="#3d434e" stroke-width="3"/>' +
+        '<g clip-path="url(#nmClip)">' +
+          '<rect class="nm-shine" x="58" y="60" width="14" height="38" fill="#ffffff" opacity="0.42" transform="rotate(20 65 79)"/>' +
+        '</g>' +
+        '<ellipse cx="78" cy="78" rx="9" ry="6" fill="#3d434e" opacity="0.55"/>' +
+        '<ellipse cx="122" cy="78" rx="9" ry="6" fill="#3d434e" opacity="0.55"/>' +
+        '<ellipse cx="100" cy="106" rx="21" ry="15" fill="#f0d3b0" stroke="#b08a5e" stroke-width="2.5"/>' +
+        '<ellipse cx="92" cy="106" rx="3.4" ry="4.4" fill="#8a6a48"/>' +
+        '<ellipse cx="108" cy="106" rx="3.4" ry="4.4" fill="#8a6a48"/>' +
+        '<path d="M92 116 Q100 121 108 116" fill="none" stroke="#a87c56" stroke-width="3" stroke-linecap="round"/>' +
+        '<circle cx="52" cy="86" r="7" fill="none" stroke="#d9a441" stroke-width="3.5"/>' +
+        '<circle cx="148" cy="86" r="7" fill="none" stroke="#d9a441" stroke-width="3.5"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 铁扇公主 ---------------- */
+  tieshangongzhu: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="tsGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#f5a0a8" stop-opacity="0.5"/>' +
+          '<stop offset="100%" stop-color="#f5a0a8" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="tsSuit" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#d9463f"/>' +
+          '<stop offset="100%" stop-color="#a82f2b"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="tsSkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#fff0e2"/>' +
+          '<stop offset="100%" stop-color="#ffd8c0"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes tsBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes tsBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes tsFan{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}' +
+        '@keyframes tsBead{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}' +
+        '.ts-breathe{animation:tsBreathe 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.ts-eye{animation:tsBlink 4.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.ts-fan{animation:tsFan 3s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom left;}' +
+        '.ts-bead{animation:tsBead 1.9s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.ts-bead2{animation-delay:.35s;}' +
+        '.ts-bead3{animation-delay:.7s;}' +
+      '</style>' : '') +
+      '<g class="ts-breathe">' +
+        '<ellipse cx="100" cy="182" rx="54" ry="11" fill="url(#tsGlow)"/>' +
+        '<path d="M60 178 Q62 134 100 122 Q138 134 140 178 Z" fill="url(#tsSuit)" stroke="#8a1f1a" stroke-width="2.5"/>' +
+        '<path d="M88 124 L100 150 L112 124 Z" fill="#fdf8ee" stroke="#e3d6c0" stroke-width="2"/>' +
+        '<path d="M100 128 L97 144 L100 152 L103 144 Z" fill="#d9a441"/>' +
+        '<path d="M62 140 Q50 152 48 166" fill="none" stroke="url(#tsSuit)" stroke-width="12" stroke-linecap="round"/>' +
+        '<path d="M138 140 Q152 148 158 156" fill="none" stroke="url(#tsSuit)" stroke-width="12" stroke-linecap="round"/>' +
+        '<g class="ts-fan" transform="rotate(-6 150 128)">' +
+          '<path d="M150 128 L178 104 A38 38 0 0 0 158 86 Z" fill="#3d4a5c" stroke="#26303d" stroke-width="2.5"/>' +
+          '<path d="M150 128 L176 108 A36 36 0 0 0 160 92 Z" fill="#8fd0c8" opacity="0.9"/>' +
+          '<line x1="150" y1="128" x2="168" y2="98" stroke="#26303d" stroke-width="2"/>' +
+          '<line x1="150" y1="128" x2="172" y2="108" stroke="#26303d" stroke-width="2"/>' +
+          '<line x1="150" y1="128" x2="162" y2="90" stroke="#26303d" stroke-width="2"/>' +
+        '</g>' +
+        '<rect x="132" y="146" width="30" height="24" rx="5" fill="#8a6a3c" stroke="#5f4826" stroke-width="2.5"/>' +
+        '<line x1="136" y1="158" x2="158" y2="158" stroke="#5f4826" stroke-width="2"/>' +
+        '<circle class="ts-bead" cx="141" cy="152" r="3.2" fill="#f0e2c6"/>' +
+        '<circle class="ts-bead ts-bead2" cx="148" cy="152" r="3.2" fill="#f0e2c6"/>' +
+        '<circle class="ts-bead ts-bead3" cx="155" cy="152" r="3.2" fill="#f0e2c6"/>' +
+        '<circle cx="141" cy="164" r="3.2" fill="#d9a441"/>' +
+        '<circle cx="148" cy="164" r="3.2" fill="#d9a441"/>' +
+        '<circle cx="155" cy="164" r="3.2" fill="#d9a441"/>' +
+        '<circle cx="100" cy="78" r="43" fill="url(#tsSkin)" stroke="#e6bb95" stroke-width="2.5"/>' +
+        '<circle cx="70" cy="42" r="14" fill="#2f2b3d"/>' +
+        '<circle cx="130" cy="42" r="14" fill="#2f2b3d"/>' +
+        '<path d="M58 68 Q62 36 100 36 Q138 36 142 68 Q126 52 100 52 Q74 52 58 68 Z" fill="#2f2b3d"/>' +
+        '<circle cx="100" cy="28" r="6" fill="#d9a441" stroke="#a67d24" stroke-width="2"/>' +
+        '<path d="M76 66 Q86 61 95 66" fill="none" stroke="#b98a6a" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M105 66 Q114 61 124 66" fill="none" stroke="#b98a6a" stroke-width="3" stroke-linecap="round"/>' +
+        '<ellipse class="ts-eye" cx="86" cy="79" rx="5.5" ry="7" fill="#3a2b30"/>' +
+        '<ellipse class="ts-eye" cx="114" cy="79" rx="5.5" ry="7" fill="#3a2b30"/>' +
+        '<circle cx="88" cy="76" r="1.8" fill="#fff"/>' +
+        '<circle cx="116" cy="76" r="1.8" fill="#fff"/>' +
+        '<ellipse cx="70" cy="90" rx="7" ry="4.5" fill="#ff9d9d" opacity="0.5"/>' +
+        '<ellipse cx="130" cy="90" rx="7" ry="4.5" fill="#ff9d9d" opacity="0.5"/>' +
+        '<path d="M94 98 Q100 103 106 98" fill="none" stroke="#c4735a" stroke-width="3" stroke-linecap="round"/>' +
+        '<circle cx="100" cy="90" r="3" fill="#e0574a"/>' +
+        '<g transform="rotate(-6 44 156)">' +
+          '<rect x="32" y="146" width="26" height="20" rx="5" fill="#8a1f1a" stroke="#5c1410" stroke-width="2.5"/>' +
+          '<path d="M32 150 Q24 148 24 156 Q24 164 32 162" fill="none" stroke="#5c1410" stroke-width="2.5"/>' +
+        '</g>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 红孩儿 ---------------- */
+  honghaier: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="hheGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#ff9a5c" stop-opacity="0.6"/>' +
+          '<stop offset="100%" stop-color="#ff9a5c" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="hheShirt" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#e8453a"/>' +
+          '<stop offset="100%" stop-color="#b52a22"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="hheSkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffe6d2"/>' +
+          '<stop offset="100%" stop-color="#ffcbaa"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes hheBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes hheBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes hheFire{0%,100%{transform:scaleY(1) translateY(0)}50%{transform:scaleY(1.16) translateY(-3px)}}' +
+        '.hhe-breathe{animation:hheBreathe 3.1s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.hhe-eye{animation:hheBlink 4.3s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.hhe-fire{animation:hheFire 2.5s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom center;}' +
+        '.hhe-fire2{animation-delay:.7s;}' +
+        '.hhe-fire3{animation-delay:1.4s;}' +
+      '</style>' : '') +
+      '<g class="hhe-breathe">' +
+        '<ellipse cx="100" cy="184" rx="52" ry="10" fill="url(#hheGlow)"/>' +
+        '<g class="hhe-fire">' +
+          '<path d="M74 180 Q70 160 82 152 Q80 166 88 170 Q86 156 96 148 Q96 164 104 168 Q104 152 112 144 Q112 162 120 170 Q122 158 128 152 Q130 166 124 180 Z" fill="#ff8a3d" opacity="0.85"/>' +
+        '</g>' +
+        '<g class="hhe-fire hhe-fire2">' +
+          '<path d="M62 182 Q60 168 68 162 Q67 172 72 176 Q70 166 76 160 Q78 172 84 178 Z" fill="#ffb347" opacity="0.75"/>' +
+        '</g>' +
+        '<g class="hhe-fire hhe-fire3">' +
+          '<path d="M138 182 Q136 168 128 162 Q129 172 124 176 Q126 166 120 160 Q118 172 112 178 Z" fill="#ffb347" opacity="0.75"/>' +
+        '</g>' +
+        '<path d="M62 176 Q64 136 100 124 Q136 136 138 176 Z" fill="url(#hheShirt)" stroke="#8a1f1a" stroke-width="2.5"/>' +
+        '<path d="M100 126 L92 140 L100 168 L108 140 Z" fill="#fdf8ee" opacity="0.9"/>' +
+        '<circle cx="100" cy="152" r="9" fill="#ffd77a" stroke="#e0a92e" stroke-width="2.5"/>' +
+        '<path d="M96 152 L100 148 L104 152 L100 156 Z" fill="#e8453a"/>' +
+        '<path d="M62 140 Q50 150 47 162" fill="none" stroke="url(#hheShirt)" stroke-width="12" stroke-linecap="round"/>' +
+        '<path d="M138 140 Q152 148 158 154" fill="none" stroke="url(#hheShirt)" stroke-width="12" stroke-linecap="round"/>' +
+        '<g transform="rotate(-22 44 148)">' +
+          '<rect x="42" y="88" width="7" height="62" rx="3.5" fill="#b9c3d0" stroke="#7e8b9c" stroke-width="2.5"/>' +
+          '<rect x="33" y="78" width="25" height="16" rx="3" fill="#3d4a5c" stroke="#26303d" stroke-width="2.5"/>' +
+          '<rect x="36" y="81" width="19" height="10" rx="1.5" fill="#8fd0c8"/>' +
+        '</g>' +
+        '<circle cx="100" cy="80" r="42" fill="url(#hheSkin)" stroke="#e6b898" stroke-width="2.5"/>' +
+        '<path d="M58 70 Q60 38 100 38 Q140 38 142 70 Q126 52 100 52 Q74 52 58 70 Z" fill="#2f2b3d"/>' +
+        '<path d="M100 36 Q96 14 104 6 Q110 18 106 36 Z" fill="#2f2b3d"/>' +
+        '<path d="M58 74 Q56 58 70 54" fill="none" stroke="#2f2b3d" stroke-width="8" stroke-linecap="round"/>' +
+        '<path d="M142 74 Q144 58 130 54" fill="none" stroke="#2f2b3d" stroke-width="8" stroke-linecap="round"/>' +
+        '<path d="M48 78 Q48 62 62 62 L62 88 Q48 88 48 78 Z" fill="#4a6bc4" stroke="#2b3f7a" stroke-width="2.5"/>' +
+        '<path d="M152 78 Q152 62 138 62 L138 88 Q152 88 152 78 Z" fill="#4a6bc4" stroke="#2b3f7a" stroke-width="2.5"/>' +
+        '<path d="M62 72 Q100 54 138 72" fill="none" stroke="#4a6bc4" stroke-width="4" stroke-linecap="round"/>' +
+        '<path d="M78 68 Q86 63 94 68" fill="none" stroke="#2f2b3d" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M106 68 Q114 63 122 68" fill="none" stroke="#2f2b3d" stroke-width="3" stroke-linecap="round"/>' +
+        '<ellipse class="hhe-eye" cx="86" cy="81" rx="6" ry="7.5" fill="#2b2b3a"/>' +
+        '<ellipse class="hhe-eye" cx="114" cy="81" rx="6" ry="7.5" fill="#2b2b3a"/>' +
+        '<circle cx="88" cy="78" r="2.2" fill="#fff"/>' +
+        '<circle cx="116" cy="78" r="2.2" fill="#fff"/>' +
+        '<ellipse cx="70" cy="93" rx="7" ry="4.5" fill="#ff9d9d" opacity="0.55"/>' +
+        '<ellipse cx="130" cy="93" rx="7" ry="4.5" fill="#ff9d9d" opacity="0.55"/>' +
+        '<path d="M92 100 Q100 108 108 100" fill="none" stroke="#c4735a" stroke-width="3" stroke-linecap="round"/>' +
+      '</g>' +
+    '</svg>';
+  },
+
+  /* ---------------- 二郎神 ---------------- */
+  erlangshen: function(animate){
+    return '<svg class="char-svg" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="elsGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#9fd8d0" stop-opacity="0.55"/>' +
+          '<stop offset="100%" stop-color="#9fd8d0" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<linearGradient id="elsSuit" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#4a5266"/>' +
+          '<stop offset="100%" stop-color="#2c3242"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="elsSkin" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" stop-color="#ffe9d6"/>' +
+          '<stop offset="100%" stop-color="#ffd4b4"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      (animate ? '<style>' +
+        '@keyframes elsBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}' +
+        '@keyframes elsBlink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.08)}}' +
+        '@keyframes elsEyeGlow{0%,100%{opacity:.35;transform:scale(.85)}50%{opacity:1;transform:scale(1.12)}}' +
+        '@keyframes elsTail{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(16deg)}}' +
+        '.els-breathe{animation:elsBreathe 3.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.els-eye{animation:elsBlink 4.7s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.els-third{animation:elsEyeGlow 2.7s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}' +
+        '.els-tail{animation:elsTail 2.3s ease-in-out infinite;transform-box:fill-box;transform-origin:top center;}' +
+      '</style>' : '') +
+      '<g class="els-breathe">' +
+        '<ellipse cx="100" cy="182" rx="56" ry="11" fill="url(#elsGlow)"/>' +
+        '<path d="M60 178 Q62 134 100 122 Q138 134 140 178 Z" fill="url(#elsSuit)" stroke="#1d222c" stroke-width="2.5"/>' +
+        '<path d="M88 124 L100 152 L112 124 Z" fill="#f4f8fc" stroke="#cdd7e2" stroke-width="2"/>' +
+        '<path d="M100 128 L96 148 L100 160 L104 148 Z" fill="#4a6bc4"/>' +
+        '<path d="M62 140 Q50 152 48 166" fill="none" stroke="url(#elsSuit)" stroke-width="13" stroke-linecap="round"/>' +
+        '<path d="M138 140 Q152 148 158 158" fill="none" stroke="url(#elsSuit)" stroke-width="13" stroke-linecap="round"/>' +
+        '<g transform="rotate(-8 42 156)">' +
+          '<rect x="26" y="142" width="36" height="42" rx="5" fill="#e8eef5" stroke="#a9b8c8" stroke-width="2.5"/>' +
+          '<rect x="30" y="136" width="20" height="8" rx="3" fill="#8b9aac" stroke="#6b7a8c" stroke-width="2"/>' +
+          '<path d="M33 160 L38 166 L48 152" fill="none" stroke="#3f9a86" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+          '<line x1="32" y1="174" x2="56" y2="174" stroke="#c3cedb" stroke-width="2.5" stroke-linecap="round"/>' +
+        '</g>' +
+        '<g transform="translate(150 128)">' +
+          '<ellipse cx="0" cy="14" rx="17" ry="13" fill="#d9a441" stroke="#a67d24" stroke-width="2.5"/>' +
+          '<circle cx="-6" cy="2" r="11" fill="#f0c469" stroke="#a67d24" stroke-width="2.5"/>' +
+          '<path d="M-15 -2 L-19 -12 L-8 -6 Z" fill="#f0c469" stroke="#a67d24" stroke-width="2"/>' +
+          '<path d="M3 -2 L7 -12 L-4 -6 Z" fill="#f0c469" stroke="#a67d24" stroke-width="2"/>' +
+          '<circle cx="-9" cy="1" r="2" fill="#3a2f26"/>' +
+          '<circle cx="-3" cy="1" r="2" fill="#3a2f26"/>' +
+          '<circle cx="-6" cy="6" r="2" fill="#3a2f26"/>' +
+          '<path class="els-tail" d="M14 12 Q24 6 26 -4" fill="none" stroke="#d9a441" stroke-width="4" stroke-linecap="round"/>' +
+        '</g>' +
+        '<circle cx="100" cy="80" r="43" fill="url(#elsSkin)" stroke="#e6bb95" stroke-width="2.5"/>' +
+        '<path d="M58 72 Q62 38 100 38 Q138 38 142 72 Q126 54 100 54 Q74 54 58 72 Z" fill="#3a3546"/>' +
+        '<path d="M100 40 L100 24" stroke="#3a3546" stroke-width="4" stroke-linecap="round"/>' +
+        '<circle class="els-third" cx="100" cy="56" r="8" fill="#fff8e6" stroke="#d9a441" stroke-width="2.5"/>' +
+        '<circle cx="100" cy="56" r="3.6" fill="#3a3546"/>' +
+        '<path d="M76 70 Q86 65 95 70" fill="none" stroke="#b98a6a" stroke-width="3.2" stroke-linecap="round"/>' +
+        '<path d="M105 70 Q114 65 124 70" fill="none" stroke="#b98a6a" stroke-width="3.2" stroke-linecap="round"/>' +
+        '<ellipse class="els-eye" cx="84" cy="84" rx="5.5" ry="7" fill="#33404f"/>' +
+        '<ellipse class="els-eye" cx="116" cy="84" rx="5.5" ry="7" fill="#33404f"/>' +
+        '<circle cx="86" cy="81" r="1.9" fill="#fff"/>' +
+        '<circle cx="118" cy="81" r="1.9" fill="#fff"/>' +
+        '<path d="M94 102 Q100 106 106 102" fill="none" stroke="#c4735a" stroke-width="3" stroke-linecap="round"/>' +
+      '</g>' +
+    '</svg>';
+  }
+};
+
+/* =====================================================================
+ *  AUDIO
+ * ===================================================================== */
+const Sound = {
+  ctx: null,
+  on: false,
+  init: function(){
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!this.ctx) this.ctx = new AC();
+      if (this.ctx.state === 'suspended') this.ctx.resume();
+      return this.ctx;
+    } catch(e){ return null; }
+  },
+  blip: function(freq, dur, type, vol){
+    if (!this.on) return;
+    const ctx = this.init();
+    if (!ctx) return;
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = type || 'sine';
+    o.frequency.value = freq;
+    const t = ctx.currentTime;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol || 0.07, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(t); o.stop(t + dur + 0.03);
+  },
+  click: function(){ this.blip(900, 0.13, 'sine', 0.08); },
+  swipe: function(){
+    if (!this.on) return;
+    const ctx = this.init(); if (!ctx) return;
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    const t = ctx.currentTime;
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(1500, t);
+    o.frequency.exponentialRampToValueAtTime(380, t + 0.12);
+    g.gain.setValueAtTime(0.05, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(t); o.stop(t + 0.16);
+  },
+  result: function(){
+    if (!this.on) return;
+    const self = this;
+    [523.25, 659.25, 783.99, 1046.50].forEach(function(f, i){
+      setTimeout(function(){ self.blip(f, 0.34, 'sine', 0.075); }, i * 110);
+    });
+  }
+};
+
+/* =====================================================================
+ *  RENDER
+ * ===================================================================== */
+const LS_PROGRESS = 'xjbt_progress_v2';
+const LS_SOUND = 'xjbt_sound_v2';
+const TOTAL = QUESTIONS.length;
+const DEBUG = /[?&]debug=1/.test(location.search);
+
+const state = {
+  answers: new Array(TOTAL).fill(null),
+  index: 0,
+  result: null,
+  galleryFilter: '全部',
+  screen: 'home',
+  locked: false
+};
+
+let advanceTimer = null;
+let toastTimer = null;
+
+function $(sel){ return document.querySelector(sel); }
+
+function toast(msg){
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2200);
+}
+
+/* ---------- 存储 ---------- */
+function saveProgress(){
+  try {
+    localStorage.setItem(LS_PROGRESS, JSON.stringify({
+      answers: state.answers, index: state.index, ts: Date.now()
+    }));
+  } catch(e){}
+}
+function loadProgress(){
+  try {
+    const s = localStorage.getItem(LS_PROGRESS);
+    if (!s) return null;
+    const d = JSON.parse(s);
+    if (!d || !Array.isArray(d.answers)) return null;
+    return d;
+  } catch(e){ return null; }
+}
+function clearProgress(){
+  try { localStorage.removeItem(LS_PROGRESS); } catch(e){}
+}
+
+/* ---------- 屏幕切换 ---------- */
+function showScreen(name){
+  ['home','quiz','result','gallery'].forEach(function(k){
+    const el = document.getElementById('scr-' + k);
+    if (el) el.classList.toggle('active', k === name);
+  });
+  state.screen = name;
+  window.scrollTo(0, 0);
+}
+
+/* ---------- 角色渲染统一入口 ---------- */
+function fallbackSVG(role){
+  const c = FALLBACK_COLORS[role.id] || ['#ffe9c4','#e9b45c'];
+  return '<div class="char-fallback" style="--c1:' + c[0] + ';--c2:' + c[1] + '">' +
+    '<span class="fb-emoji">' + role.emoji + '</span></div>';
+}
+
+function renderSVG(roleId, size){
+  const role = ROLES.filter(function(r){
+    return r.id === roleId || r.svgKey === roleId;
+  })[0];
+  if (!role) return '';
+  const builder = SVG_CHARS[role.svgKey];
+  if (builder){
+    try {
+      return builder(true);
+    } catch(e){
+      return fallbackSVG(role);
+    }
+  }
+  return fallbackSVG(role);
+}
+
+function charNode(role){
+  const builder = SVG_CHARS[role.svgKey];
+  if (builder){
+    try { return builder(true); }
+    catch(e){ return fallbackSVG(role); }
+  }
+  return fallbackSVG(role);
+}
+
+function miniAvatar(role){
+  const builder = SVG_CHARS[role.svgKey];
+  if (builder){
+    try { return builder(true); }
+    catch(e){ return '<div class="mini-fb">' + role.emoji + '</div>'; }
+  }
+  return '<div class="mini-fb">' + role.emoji + '</div>';
+}
+
+/* ---------- 首页 ---------- */
+function renderHome(){
+  const answered = state.answers.filter(function(a){ return a !== null; }).length;
+  const btn = $('#btn-start');
+  if (answered === TOTAL) btn.textContent = '查看我的结果';
+  else if (answered > 0) btn.textContent = '继续测试';
+  else btn.textContent = '开始测试';
+
+  const hint = $('#resume-hint');
+  if (answered > 0 && answered < TOTAL){
+    hint.hidden = false;
+    hint.textContent = '已保存进度：' + answered + ' / ' + TOTAL + ' 题，可继续作答';
+  } else {
+    hint.hidden = true;
+  }
+}
+
+/* ---------- 测评页 ---------- */
+function renderQuiz(dir){
+  const idx = state.index;
+  const q = QUESTIONS[idx];
+  const keys = ['A','B','C','D'];
+
+  $('#q-num').textContent = String(idx + 1);
+  $('#q-pct').textContent = Math.round(((idx + 1) / TOTAL) * 100) + '%';
+  $('#pbar-fill').style.width = (((idx + 1) / TOTAL) * 100).toFixed(2) + '%';
+  $('#q-index-label').textContent = 'QUESTION ' + (idx + 1 < 10 ? '0' : '') + (idx + 1);
+  $('#q-text').textContent = q.text;
+
+  const list = $('#opt-list');
+  list.innerHTML = '';
+  q.options.forEach(function(opt, i){
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt' + (state.answers[idx] === i ? ' selected' : '');
+    b.setAttribute('data-opt', String(i));
+    const k = document.createElement('span');
+    k.className = 'opt-key';
+    k.textContent = keys[i];
+    const t = document.createElement('span');
+    t.className = 'opt-text';
+    t.textContent = opt.text;
+    b.appendChild(k); b.appendChild(t);
+    b.addEventListener('click', function(){ onPick(i); });
+    list.appendChild(b);
+  });
+
+  const prev = $('#btn-prev');
+  const next = $('#btn-next');
+  prev.disabled = (idx === 0);
+
+  const isLast = (idx === TOTAL - 1);
+  next.textContent = isLast ? '查看结果' : '下一题';
+  next.disabled = (state.answers[idx] === null);
+
+  const tip = $('#quiz-tip');
+  if (isLast){
+    tip.textContent = state.answers[idx] === null
+      ? '请选择一个答案，然后点击「查看结果」'
+      : '已选择，点击「查看结果」生成你的取经人格';
+  } else {
+    tip.textContent = '选择后会自动进入下一题';
+  }
+
+  if (dir){
+    const body = $('#quiz-body');
+    body.classList.remove('slide-right','slide-left');
+    void body.offsetWidth;
+    body.classList.add(dir === 'back' ? 'slide-left' : 'slide-right');
+  }
+}
+
+function onPick(optionIndex){
+  if (state.locked) return;
+  const idx = state.index;
+
+  state.answers[idx] = optionIndex;
+  saveProgress();
+  Sound.click();
+
+  const opts = document.querySelectorAll('#opt-list .opt');
+  for (let i = 0; i < opts.length; i++) opts[i].classList.remove('selected');
+  const target = document.querySelector('#opt-list .opt[data-opt="' + optionIndex + '"]');
+  if (target) target.classList.add('selected');
+
+  const nextBtn = $('#btn-next');
+  const isLast = (idx === TOTAL - 1);
+
+  if (isLast){
+    nextBtn.disabled = false;
+    $('#quiz-tip').textContent = '已选择，点击「查看结果」生成你的取经人格';
+    return;
+  }
+
+  state.locked = true;
+  if (advanceTimer) clearTimeout(advanceTimer);
+  advanceTimer = setTimeout(function(){
+    advanceTimer = null;
+    state.locked = false;
+    if (state.index !== idx) return;
+    if (state.answers[idx] !== optionIndex) return;
+    state.index = idx + 1;
+    saveProgress();
+    Sound.swipe();
+    renderQuiz('forward');
+  }, 280);
+}
+
+function goPrev(){
+  if (state.locked) return;
+  if (state.index === 0) return;
+  if (advanceTimer){ clearTimeout(advanceTimer); advanceTimer = null; }
+  state.index -= 1;
+  saveProgress();
+  Sound.swipe();
+  renderQuiz('back');
+}
+
+function goNext(){
+  if (state.locked) return;
+  if (state.answers[state.index] === null){
+    toast('请先选择一个答案');
+    return;
+  }
+  if (state.index === TOTAL - 1){
+    finishQuiz();
+    return;
+  }
+  state.index += 1;
+  saveProgress();
+  Sound.swipe();
+  renderQuiz('forward');
+}
+
+function finishQuiz(){
+  if (state.answers.some(function(a){ return a === null; })){
+    toast('还有题目没有作答');
+    return;
+  }
+  state.result = evaluate(state.answers);
+  Sound.result();
+  renderResult(state.result);
+  showScreen('result');
+}
+
+/* ---------- 结果页 ---------- */
+function renderResult(res){
+  const role = res.t1.role;
+  const sub = (res.composite && res.t2) ? res.t2.role : null;
+  const root = $('#result-root');
+
+  const strengthsHTML = role.strengths.map(function(s){
+    return '<div class="list-item"><span class="dot">✓</span><span>' + s + '</span></div>';
+  }).join('');
+
+  const blindHTML = role.blindspots.map(function(s){
+    return '<div class="list-item warn"><span class="dot">!</span><span>' + s + '</span></div>';
+  }).join('');
+
+  const partnersHTML = role.partners.map(function(p){
+    const pr = findRoleByName(p.name);
+    return '<div class="partner-item">' +
+      '<div class="partner-avatar">' + (pr ? miniAvatar(pr) : '') + '</div>' +
+      '<div class="partner-body"><div class="partner-name">' + p.name + '</div>' +
+      '<div class="partner-reason">' + p.reason + '</div></div></div>';
+  }).join('');
+
+  const candHTML = res.top3.map(function(x, i){
+    return '<div class="cand-card' + (i === 0 ? ' first' : '') + '">' +
+      '<div class="cand-rank">候选位 ' + (i + 1) + '</div>' +
+      '<div class="cand-avatar">' + miniAvatar(x.role) + '</div>' +
+      '<div class="cand-name">' + x.role.name + '</div>' +
+      '<div class="cand-slot">' + x.role.teamSlot + '</div>' +
+      '<div class="cand-pct">' + Math.round(clamp(x.sim, 0, 1) * 100) + '%</div>' +
+      '</div>';
+  }).join('');
+
+  let html = '';
+
+  html += '<div class="res-hero">';
+  html += '  <div class="hero-figure' + (sub ? ' is-comp' : '') + '">';
+  html += '    <div class="fig-main">' + charNode(role) + '</div>';
+  if (sub){
+    html += '    <div class="fig-sub">' + charNode(sub) + '</div>';
+  }
+  html += '  </div>';
+  html += '  <div class="hero-name">' + role.name + '</div>';
+  html += '  <div class="hero-tagline">' + role.tagline + '</div>';
+  html += '  <div class="hero-arch">' + role.archetype + ' · ' + role.teamSlot + '</div>';
+  html += '  <div class="hero-pct">契合度 ' + res.pct + '%</div>';
+  if (sub){
+    html += '  <div class="composite-line">你是 ' + role.name + ' 型，带 ' + res.compositePct + '% ' + sub.name + ' 底色</div>';
+  } else if (res.secondary && res.t2){
+    html += '  <div class="composite-line">你也有较强 ' + res.t2.role.name + ' 型倾向</div>';
+  }
+  if (res.fallback){
+    html += '  <div class="composite-line">（多维得分偏均衡，已采用原始最高分匹配）</div>';
+  }
+  html += '</div>';
+
+  html += '<div class="panel"><h3>核心优势</h3>' + strengthsHTML + '</div>';
+  html += '<div class="panel"><h3>职场盲点</h3>' + blindHTML + '</div>';
+  html += '<div class="badge89"><b>你 的 八 十 一 难</b>' + role.badge89 + '</div>';
+
+  html += '<div class="panel"><h3>最佳搭档</h3>' + partnersHTML + '</div>';
+
+  html += '<div class="panel"><h3>职场说明书</h3>';
+  html += '  <div class="info-row"><div class="k">最怕遇到</div><div class="v">' + role.worstManager + '</div></div>';
+  html += '  <div class="info-row"><div class="k">团队缺位</div><div class="v">' + role.teamGap + '</div></div>';
+  html += '  <div class="info-row"><div class="k">隐藏成就</div><div class="v">' + role.achievement + '</div></div>';
+  html += '</div>';
+
+  html += '<div class="panel"><h3>取经团队候选位</h3><div class="cand-grid">' + candHTML + '</div></div>';
+
+  if (DEBUG) html += renderDebug(res);
+
+  root.innerHTML = html;
+
+  const fig = root.querySelector('.hero-figure');
+  if (sub && fig) fig.classList.add('is-comp');
+  window.scrollTo(0, 0);
+}
+
+function renderDebug(res){
+  let h = '<div class="debug-box"><h4>DEBUG · 9 维得分（U 值 0-10）</h4>';
+  DIM_KEYS.forEach(function(k){
+    const u = res.U[k].toFixed(2);
+    const raw = res.raw[k];
+    h += '<div class="dbg-row"><span>' + k + ' ' + DIM_META[k].name + '（w=' + DIM_META[k].w + '）</span>' +
+         '<span>' + raw + ' → ' + u + '</span></div>';
+  });
+  h += '<h4 style="margin-top:14px">Top5 相似度</h4>';
+  res.top5.forEach(function(x, i){
+    h += '<div class="dbg-row"><span>' + (i + 1) + '. ' + x.role.name +
+         '（base ' + x.base.toFixed(4) + ' + 锚点 ' + x.bonus.toFixed(2) + '）</span>' +
+         '<span>' + x.sim.toFixed(4) + '</span></div>';
+  });
+  h += '<h4 style="margin-top:14px">排除规则触发</h4>';
+  if (res.exclusions.hits.length === 0) h += '<div class="dbg-row"><span>无</span><span>-</span></div>';
+  res.exclusions.hits.forEach(function(t){ h += '<div class="dbg-row"><span>' + t + '</span><span>ON</span></div>'; });
+  if (res.excludedRoles.length){
+    h += '<div class="dbg-sub">已排除角色：' + res.excludedRoles.map(function(x){ return x.role.name; }).join('、') + '</div>';
+  }
+  h += '<div class="dbg-sub">复合判定：gap=' + res.gap.toFixed(4) +
+       ' · composite=' + (res.composite ? 'TRUE' : 'false') +
+       ' · secondary=' + (res.secondary ? 'TRUE' : 'false') +
+       ' · fallback=' + (res.fallback ? 'TRUE' : 'false') + '</div>';
+  h += '</div>';
+  return h;
+}
+
+/* ---------- 图鉴页 ---------- */
+function renderGallery(){
+  const fw = $('#gal-filters');
+  fw.innerHTML = '';
+  TEAM_SLOTS.forEach(function(slot){
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'filter-btn' + (state.galleryFilter === slot ? ' active' : '');
+    b.textContent = slot;
+    b.addEventListener('click', function(){
+      state.galleryFilter = slot;
+      renderGallery();
+    });
+    fw.appendChild(b);
+  });
+
+  const grid = $('#gal-grid');
+  grid.innerHTML = '';
+  const list = ROLES.filter(function(r){
+    return state.galleryFilter === '全部' || r.teamSlot === state.galleryFilter;
+  });
+
+  list.forEach(function(r){
+    const card = document.createElement('div');
+    card.className = 'gal-card';
+    card.innerHTML =
+      '<div class="gal-avatar">' + charNode(r) + '</div>' +
+      '<div class="gal-name">' + r.name + '</div>' +
+      '<div class="gal-tag">' + r.tagline + '</div>' +
+      '<span class="gal-slot">' + r.teamSlot + '</span>';
+
+    card.addEventListener('click', function(){
+      const existing = card.querySelector('.gal-detail');
+      if (existing){ existing.remove(); return; }
+      const detail = document.createElement('div');
+      detail.className = 'gal-detail';
+      detail.innerHTML =
+        '<h4>' + r.name + ' · ' + r.archetype + '</h4>' +
+        '<p><span class="lbl">优势</span>' + r.strengths.join('、') + '</p>' +
+        '<p><span class="lbl">盲点</span>' + r.blindspots.join('、') + '</p>' +
+        '<p><span class="lbl">最佳搭档</span>' + r.partners.map(function(p){ return p.name + '（' + p.reason + '）'; }).join('；') + '</p>' +
+        '<p><span class="lbl">最怕遇到</span>' + r.worstManager + '</p>' +
+        '<p><span class="lbl">团队缺位</span>' + r.teamGap + '</p>' +
+        '<p><span class="lbl">隐藏成就</span>' + r.achievement + '</p>' +
+        '<p><span class="lbl">八十一难</span>' + r.badge89 + '</p>';
+      card.appendChild(detail);
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+/* =====================================================================
+ *  SHARE（Canvas 海报 / 组队卡 / 文案复制）
+ * ===================================================================== */
+function svgToImage(svgStr){
+  return new Promise(function(resolve, reject){
+    const img = new Image();
+    img.onload = function(){ resolve(img); };
+    img.onerror = function(){ reject(new Error('svg load failed')); };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgStr);
+  });
+}
+
+async function drawRoleOnCanvas(ctx, role, cx, cy, size){
+  const builder = SVG_CHARS[role.svgKey];
+  if (builder){
+    try {
+      const img = await svgToImage(builder(false));
+      ctx.drawImage(img, cx - size / 2, cy - size / 2, size, size);
+      return;
+    } catch(e){ /* 降级到 emoji */ }
+  }
+  const c = FALLBACK_COLORS[role.id] || ['#ffe9c4','#e9b45c'];
+  const g = ctx.createRadialGradient(cx - size * 0.12, cy - size * 0.16, size * 0.04, cx, cy, size * 0.5);
+  g.addColorStop(0, c[0]);
+  g.addColorStop(1, c[1]);
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.arc(cx, cy, size * 0.42, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.font = 'bold ' + Math.round(size * 0.4) + 'px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#5a3d12';
+  ctx.fillText(role.emoji, cx, cy + size * 0.02);
+  ctx.textBaseline = 'alphabetic';
+}
+
+function roundRect(ctx, x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight, maxLines){
+  const chars = String(text).split('');
+  let line = '';
+  let lines = [];
+  for (let i = 0; i < chars.length; i++){
+    const test = line + chars[i];
+    if (ctx.measureText(test).width > maxWidth && line !== ''){
+      lines.push(line);
+      line = chars[i];
+      if (maxLines && lines.length >= maxLines) break;
+    } else {
+      line = test;
+    }
+  }
+  if (line !== '' && (!maxLines || lines.length < maxLines)) lines.push(line);
+  lines.forEach(function(l, i){
+    ctx.fillText(l, x, y + i * lineHeight);
+  });
+  return lines.length;
+}
+
+function downloadCanvas(canvas, filename){
+  function fallbackDataURL(){
+    try {
+      const url = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      toast('已生成图片');
+    } catch(e){
+      toast('图片生成失败，请直接截图保存');
+    }
+  }
+  if (canvas.toBlob){
+    canvas.toBlob(function(blob){
+      if (!blob){ fallbackDataURL(); return; }
+      try {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 2200);
+        toast('已生成图片');
+      } catch(e){ fallbackDataURL(); }
+    }, 'image/png');
+  } else {
+    fallbackDataURL();
+  }
+}
+
+async function buildPoster(res){
+  const W = 750, H = 1334;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  const role = res.t1.role;
+  const sub = (res.composite && res.t2) ? res.t2.role : null;
+
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#fdf9f0');
+  bg.addColorStop(0.55, '#f8f0e0');
+  bg.addColorStop(1, '#f0e4cf');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.save();
+  ctx.globalAlpha = 0.5;
+  ctx.strokeStyle = 'rgba(217,164,65,0.35)';
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(W / 2, 430, 250, 0, Math.PI * 2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(W / 2, 430, 290, 0, Math.PI * 2); ctx.stroke();
+  ctx.restore();
+
+  ctx.fillStyle = '#c43b2f';
+  ctx.font = 'bold 44px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('职场西游世界', W / 2, 108);
+
+  ctx.fillStyle = '#8a7d6b';
+  ctx.font = '24px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText('测 测 你 是 谁 ？', W / 2, 152);
+
+  ctx.strokeStyle = 'rgba(217,164,65,0.65)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(W / 2 - 90, 178);
+  ctx.lineTo(W / 2 + 90, 178);
+  ctx.stroke();
+
+  if (sub){
+    await drawRoleOnCanvas(ctx, role, W / 2 - 70, 372, 300);
+    await drawRoleOnCanvas(ctx, sub, W / 2 + 168, 452, 150);
+    ctx.fillStyle = '#c43b2f';
+    ctx.font = 'bold 22px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+    ctx.fillText('＋', W / 2 + 84, 430);
+  } else {
+    await drawRoleOnCanvas(ctx, role, W / 2, 380, 320);
+  }
+
+  ctx.fillStyle = '#2f2a26';
+  ctx.font = 'bold 56px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText(role.name, W / 2, 592);
+
+  ctx.fillStyle = '#c43b2f';
+  ctx.font = 'bold 26px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText(role.tagline, W / 2, 638);
+
+  ctx.fillStyle = '#8a7d6b';
+  ctx.font = '22px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText(role.archetype + ' · ' + role.teamSlot, W / 2, 678);
+
+  ctx.fillStyle = 'rgba(217,164,65,0.18)';
+  roundRect(ctx, W / 2 - 132, 704, 264, 54, 27);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(217,164,65,0.7)';
+  ctx.lineWidth = 2;
+  roundRect(ctx, W / 2 - 132, 704, 264, 54, 27);
+  ctx.stroke();
+  ctx.fillStyle = '#8a6417';
+  ctx.font = 'bold 24px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText('契 合 度  ' + res.pct + '%', W / 2, 740);
+
+  if (sub){
+    ctx.fillStyle = '#8a7d6b';
+    ctx.font = '22px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+    ctx.fillText('带 ' + res.compositePct + '% ' + sub.name + ' 底色', W / 2, 796);
+  }
+
+  const cardY = sub ? 826 : 790;
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = 'rgba(47,42,38,0.10)';
+  ctx.shadowBlur = 24;
+  ctx.shadowOffsetY = 8;
+  roundRect(ctx, 60, cardY, W - 120, 262, 22);
+  ctx.fill();
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetY = 0;
+
+  ctx.fillStyle = '#c43b2f';
+  ctx.font = 'bold 26px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('核 心 优 势', 92, cardY + 52);
+
+  ctx.font = '23px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  role.strengths.forEach(function(s, i){
+    const y = cardY + 100 + i * 52;
+    ctx.fillStyle = '#d9a441';
+    ctx.beginPath();
+    ctx.arc(100, y - 8, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#3d372f';
+    wrapText(ctx, s, 124, y, W - 220, 30, 1);
+  });
+
+  const bpY = cardY + 292;
+  ctx.fillStyle = '#c43b2f';
+  ctx.font = 'bold 26px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText('最 佳 搭 档', 60, bpY + 12);
+
+  ctx.fillStyle = '#5d554a';
+  ctx.font = '23px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  role.partners.forEach(function(p, i){
+    ctx.fillText('· ' + p.name + '（' + p.reason + '）', 60, bpY + 60 + i * 42);
+  });
+
+  const qy = H - 190;
+  ctx.strokeStyle = 'rgba(217,164,65,0.85)';
+  ctx.lineWidth = 3;
+  roundRect(ctx, W / 2 - 58, qy, 116, 116, 14);
+  ctx.stroke();
+
+  ctx.strokeStyle = 'rgba(196,59,47,0.55)';
+  ctx.lineWidth = 4;
+  for (let i = 0; i < 3; i++){
+    for (let j = 0; j < 3; j++){
+      if ((i + j) % 2 === 0){
+        ctx.strokeRect(W / 2 - 44 + i * 30, qy + 14 + j * 30, 26, 26);
+      }
+    }
+  }
+
+  ctx.fillStyle = '#9a9188';
+  ctx.font = '20px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('扫码 / 转发，测测你的取经人格', W / 2, H - 40);
+
+  ctx.fillStyle = 'rgba(196,59,47,0.9)';
+  ctx.font = 'bold 22px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText('职 场 西 游 世 界', W / 2, H - 12);
+
+  downloadCanvas(canvas, '职场西游人格_' + role.name + '.png');
+}
+
+async function buildTeamCard(res){
+  const W = 750, H = 1000;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  const main = res.t1.role;
+  const partnerRoles = main.partners.map(function(p){ return findRoleByName(p.name); }).filter(Boolean);
+  while (partnerRoles.length < 2){
+    const cand = ROLES.filter(function(r){
+      return r.id !== main.id && partnerRoles.indexOf(r) === -1;
+    })[0];
+    if (!cand) break;
+    partnerRoles.push(cand);
+  }
+  const team = [partnerRoles[0], main, partnerRoles[1]];
+
+  const bg = ctx.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, '#fdf9f0');
+  bg.addColorStop(1, '#efe2c9');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = 'rgba(217,164,65,0.16)';
+  ctx.beginPath();
+  ctx.arc(W / 2, 470, 320, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#c43b2f';
+  ctx.font = 'bold 48px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('我 的 取 经 小 队', W / 2, 116);
+
+  ctx.fillStyle = '#8a7d6b';
+  ctx.font = '24px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText('三 人 成 队 · 各 司 其 位', W / 2, 162);
+
+  const positions = [
+    { x: W * 0.2, y: 470, size: 190, role: team[0] },
+    { x: W * 0.5, y: 420, size: 240, role: team[1] },
+    { x: W * 0.8, y: 470, size: 190, role: team[2] }
+  ];
+
+  for (let i = 0; i < positions.length; i++){
+    const p = positions[i];
+    if (!p.role) continue;
+    ctx.fillStyle = 'rgba(255,255,255,0.72)';
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * 0.56, 0, Math.PI * 2);
+    ctx.fill();
+    await drawRoleOnCanvas(ctx, p.role, p.x, p.y, p.size);
+
+    ctx.fillStyle = '#2f2a26';
+    ctx.font = 'bold 30px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+    ctx.fillText(p.role.name, p.x, p.y + p.size * 0.56 + 44);
+
+    ctx.fillStyle = '#8a7d6b';
+    ctx.font = '20px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+    ctx.fillText(p.role.teamSlot, p.x, p.y + p.size * 0.56 + 78);
+  }
+
+  ctx.fillStyle = '#c43b2f';
+  ctx.font = 'bold 36px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText('你的团队缺谁？拉他来测。', W / 2, H - 128);
+
+  ctx.fillStyle = '#9a9188';
+  ctx.font = '22px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillText('职场西游世界 · 取经团队人格测试', W / 2, H - 76);
+
+  ctx.strokeStyle = 'rgba(217,164,65,0.7)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(W / 2 - 140, H - 46);
+  ctx.lineTo(W / 2 + 140, H - 46);
+  ctx.stroke();
+
+  downloadCanvas(canvas, '我的取经小队_' + main.name + '.png');
+}
+
+function copyText(text){
+  return new Promise(function(resolve, reject){
+    function fallback(){
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        ta.style.top = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        ta.setSelectionRange(0, ta.value.length);
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok) resolve(); else reject(new Error('copy failed'));
+      } catch(e){ reject(e); }
+    }
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(resolve).catch(fallback);
+    } else {
+      fallback();
+    }
+  });
+}
+
+/* =====================================================================
+ *  初始化与事件
+ * ===================================================================== */
+function resetAll(silent){
+  if (advanceTimer){ clearTimeout(advanceTimer); advanceTimer = null; }
+  state.locked = false;
+  clearProgress();
+  state.answers = new Array(TOTAL).fill(null);
+  state.index = 0;
+  state.result = null;
+  renderHome();
+  showScreen('home');
+  if (!silent) toast('已清空进度，可以重新开始');
+}
+
+function initSound(){
+  let saved = null;
+  try { saved = localStorage.getItem(LS_SOUND); } catch(e){}
+  Sound.on = saved === '1';
+  updateSoundUI();
+}
+function updateSoundUI(){
+  const btn = $('#sound-toggle');
+  const icon = $('#sound-icon');
+  btn.classList.toggle('on', Sound.on);
+  icon.textContent = Sound.on ? '🔊' : '🔇';
+}
+
+function bindEvents(){
+  $('#btn-start').addEventListener('click', function(){
+    Sound.init();
+    const answered = state.answers.filter(function(a){ return a !== null; }).length;
+    if (answered === TOTAL){
+      state.result = evaluate(state.answers);
+      renderResult(state.result);
+      showScreen('result');
+      return;
+    }
+    if (answered === 0){
+      state.index = 0;
+    } else {
+      state.index = Math.min(state.index, TOTAL - 1);
+    }
+    renderQuiz(null);
+    showScreen('quiz');
+  });
+
+  $('#btn-gallery').addEventListener('click', function(){
+    renderGallery();
+    showScreen('gallery');
+  });
+
+  $('#btn-gallery2').addEventListener('click', function(){
+    renderGallery();
+    showScreen('gallery');
+  });
+
+  $('#btn-gal-back').addEventListener('click', function(){
+    if (state.result) showScreen('result');
+    else showScreen('home');
+  });
+
+  $('#btn-prev').addEventListener('click', goPrev);
+  $('#btn-next').addEventListener('click', goNext);
+
+  $('#btn-restart').addEventListener('click', function(){ resetAll(false); });
+
+  $('#btn-copy').addEventListener('click', function(){
+    if (!state.result){ toast('还没有结果可以复制'); return; }
+    const text = shareTextOf(state.result.t1.role);
+    copyText(text).then(function(){
+      toast('分享文案已复制');
+    }).catch(function(){
+      toast('复制失败，请手动选择文本');
+    });
+  });
+
+  $('#btn-poster').addEventListener('click', function(){
+    if (!state.result){ toast('还没有结果'); return; }
+    toast('正在生成海报…');
+    buildPoster(state.result).catch(function(){
+      const text = shareTextOf(state.result.t1.role);
+      copyText(text).then(function(){ toast('海报生成失败，已为你复制分享文案'); })
+        .catch(function(){ toast('海报生成失败，请截图保存结果页'); });
+    });
+  });
+
+  $('#btn-teamcard').addEventListener('click', function(){
+    if (!state.result){ toast('还没有结果'); return; }
+    toast('正在生成组队卡…');
+    buildTeamCard(state.result).catch(function(){
+      toast('组队卡生成失败，请截图保存结果页');
+    });
+  });
+
+  $('#sound-toggle').addEventListener('click', function(){
+    Sound.on = !Sound.on;
+    try { localStorage.setItem(LS_SOUND, Sound.on ? '1' : '0'); } catch(e){}
+    updateSoundUI();
+    if (Sound.on){
+      Sound.init();
+      Sound.click();
+      toast('音效已开启');
+    } else {
+      toast('音效已关闭');
+    }
+  });
+}
+
+function initTitleChars(){
+  const el = document.getElementById('hero-title');
+  if (!el) return;
+  const text = el.textContent;
+  const chars = Array.from(text);
+  el.innerHTML = '';
+  chars.forEach(function(ch, i){
+    const span = document.createElement('span');
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    span.style.animationDelay = (0.12 + i * 0.045) + 's';
+    el.appendChild(span);
+  });
+}
+
+(function init(){
+  const saved = loadProgress();
+  if (saved && Array.isArray(saved.answers)){
+    const arr = new Array(TOTAL).fill(null);
+    for (let i = 0; i < TOTAL; i++){
+      const v = saved.answers[i];
+      if (typeof v === 'number' && v >= 0 && v < QUESTIONS[i].options.length) arr[i] = v;
+    }
+    state.answers = arr;
+    const idx = parseInt(saved.index, 10);
+    state.index = isNaN(idx) ? 0 : clamp(idx, 0, TOTAL - 1);
+  }
+
+  initTitleChars();
+  initSound();
+  bindEvents();
+  renderHome();
+  showScreen('home');
+})();
+</script>
+</body>
+</html>
+```
